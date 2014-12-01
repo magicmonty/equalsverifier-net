@@ -37,4 +37,29 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestHelpers\" />
+    <Folder Include="TestHelpers\Types\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TestHelpers\Types\BlindlyEqualsColorPoint.cs" />
+    <Compile Include="TestHelpers\Types\Color.cs" />
+    <Compile Include="TestHelpers\Types\Point.cs" />
+    <Compile Include="TestHelpers\Types\BlindlyEqualsPoint.cs" />
+    <Compile Include="TestHelpers\Utils.cs" />
+    <Compile Include="TestHelpers\Types\CanEqualColorPoint.cs" />
+    <Compile Include="TestHelpers\Types\CanEqualPoint.cs" />
+    <Compile Include="TestHelpers\Types\ColorBlindColorPoint.cs" />
+    <Compile Include="TestHelpers\Types\Point3D.cs" />
+    <Compile Include="TestHelpers\Types\ColorPoint3D.cs" />
+    <Compile Include="TestHelpers\Types\EqualSubclassForBlindlyEqualsPoint.cs" />
+    <Compile Include="TestHelpers\Types\EqualSubclassForCanEqualPoint.cs" />
+    <Compile Include="TestHelpers\Types\SealedMethodsPoint.cs" />
+    <Compile Include="TestHelpers\Types\SealedPoint.cs" />
+    <Compile Include="TestHelpers\Types\ImmutableCanEqualPoint.cs" />
+    <Compile Include="TestHelpers\Types\Multiple.cs" />
+    <Compile Include="TestHelpers\Types\MutableCanEqualColorPoint.cs" />
+    <Compile Include="TestHelpers\Types\PointContainer.cs" />
+    <Compile Include="TestHelpers\Types\RecursiveTypeHelper.cs" />
+  </ItemGroup>
 </Project>
