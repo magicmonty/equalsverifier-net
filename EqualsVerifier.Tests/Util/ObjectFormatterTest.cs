@@ -55,9 +55,117 @@ namespace EqualsVerifier.Util
         public void OneAbstractParameter()
         {
             var i = Instantiator<Abstract>.Of<Abstract>();
+            var sut = ObjectFormatter.Of("Abstract: %%", i.Instantiate());
+            sut.Format().ShouldContain("Abstract: [Abstract x=10]-throws NotImplementedException()");
+        }
 
-            var f = ObjectFormatter.Of("Abstract: %%", i.Instantiate());
-            f.Format().ShouldContain("Abstract: [Abstract x=10]-throws NotImplementedException()");
+        [Test]
+        public void OneConcreteSubclassParameter()
+        {
+            var i = Instantiator<AbstractImpl>.Of<AbstractImpl>();
+            var sut = ObjectFormatter.Of("Concrete: %%", i.Instantiate());
+            sut.Format().ShouldContain("Concrete: something concrete");
+        }
+
+        [Test]
+        public void OneDelegatedAbstractParameter()
+        {
+            var i = Instantiator<AbstractDelegation>.Of<AbstractDelegation>();
+            var sut = ObjectFormatter.Of("Abstract: %%", i.Instantiate());
+            sut.Format().ShouldContain("Abstract: [AbstractDelegation y=20]-throws NotImplementedException()");
+        }
+
+        [Test]
+        public void OneDelegatedConcreteSubclassParameter()
+        {
+            var i = Instantiator<AbstractDelegationImpl>.Of<AbstractDelegationImpl>();
+            var sut = ObjectFormatter.Of("Concrete: %%", i.Instantiate());
+            sut.Format().ShouldContain("Concrete: something concrete");
+        }
+
+        [Test]
+        public void OneThrowingContainerParameter()
+        {
+            var tc = new ThrowingContainer(new Throwing(0, null));
+            var sut = ObjectFormatter.Of("TC: %%", tc);
+            sut.Format().ShouldContain("TC: [ThrowingContainer _t=[Throwing _i=0 _s=null]-throws ArgumentException(msg)]-throws ArgumentException(msg)");
+        }
+
+        [Test]
+        public void OneAbstractContainerParameter()
+        {
+            var i = Instantiator<AbstractDelegation>.Of<AbstractDelegation>();
+            var ac = new AbstractContainer(i.Instantiate());
+
+            var sut = ObjectFormatter.Of("AC: %%", ac);
+            sut.Format().ShouldContain("AC: [AbstractContainer _ad=[AbstractDelegation y=20]-throws NotImplementedException()]-throws NotImplementedException()");
+        }
+
+        [Test]
+        public void ParameterWithMixOfVariousFields()
+        {
+            var mix = new Mix();
+            mix.Throwing = new Throwing(42, "empty");
+
+            var sut = ObjectFormatter.Of("%%", mix);
+            sut.Format().ShouldBe("[Mix _i=42 _s=null _t=not null Throwing=[Throwing _i=42 _s=empty]-throws ArgumentException(msg)]-throws InvalidOperationException(Operation is not valid due to the current state of the object)");
+        }
+
+        [Test]
+        public void ConnectedParameters()
+        {
+            var sut = ObjectFormatter.Of("%%%%", 1, 2);
+            sut.Format().ShouldContain("12");
+        }
+
+        [Test]
+        public void NullParameter()
+        {
+            var sut = ObjectFormatter.Of("This parameter is null: %%", (Object)null);
+            sut.Format().ShouldBe("This parameter is null: null");
+        }
+
+        [Test]
+        public void NullMessage()
+        {
+            Should.Throw<ArgumentNullException>(() => {
+                ObjectFormatter.Of(null);
+            });
+        }
+
+        [Test]
+        public void NotEnoughParameters()
+        {
+            var sut = ObjectFormatter.Of("Not enough: %% and %%");
+
+            Should.Throw<InvalidOperationException>(() => {
+                sut.Format();
+            });
+
+            try {
+                sut.Format();
+            }
+            catch (InvalidOperationException e) {
+                e.Message.ShouldBe("Not enough parameters");
+            }
+
+        }
+
+        [Test]
+        public void TooManyParameters()
+        {
+            var sut = ObjectFormatter.Of("Too many!", new Simple(0));
+
+            Should.Throw<InvalidOperationException>(() => {
+                sut.Format();
+            });
+
+            try {
+                sut.Format();
+            }
+            catch (InvalidOperationException e) {
+                e.Message.ShouldBe("Too many parameters");
+            }
         }
 
         sealed class Simple
@@ -115,9 +223,9 @@ namespace EqualsVerifier.Util
             }
         }
 
-        abstract class AbstractDelegation
+        public abstract class AbstractDelegation
         {
-            private readonly int y = 20;
+            readonly int y = 20;
 
             public abstract string SomethingAbstract();
 
@@ -170,9 +278,9 @@ namespace EqualsVerifier.Util
             public readonly int _i = 42;
             public readonly string _s = null;
             public readonly string _t = "not null";
-            public Throwing throwing;
+            public Throwing Throwing;
 
-            public String ToString()
+            public override String ToString()
             {
                 throw new InvalidOperationException();
             }

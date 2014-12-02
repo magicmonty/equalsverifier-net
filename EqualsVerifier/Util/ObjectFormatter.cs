@@ -86,15 +86,12 @@ namespace EqualsVerifier.Util
                 return obj.ToString();
             }
             catch (Exception e) {
-                var type = obj.GetType();
-                var isProxy = type.FullName.Contains("Castle") && type.FullName.Contains("Proxy");
-
                 return new StringBuilder()
                     .Append(StringifyByReflection(obj))
                     .Append("-throws ")
                     .Append(e.GetType().Name)
                     .Append("(")
-                    .Append(isProxy ? "" : e.Message)
+                    .Append(e is NotImplementedException && e.Message.Contains("DynamicProxy") ? "" : e.Message)
                     .Append(")")
                     .ToString();
             }
