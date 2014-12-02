@@ -1,6 +1,6 @@
-﻿using EqualsVerifier.Tests.TestHelpers;
+﻿using EqualsVerifier.TestHelpers;
 
-namespace EqualsVerifier.Tests.TestHelpers.Types
+namespace EqualsVerifier.TestHelpers.Types
 {
     public sealed class BlindlyEqualsColorPoint : BlindlyEqualsPoint
     {

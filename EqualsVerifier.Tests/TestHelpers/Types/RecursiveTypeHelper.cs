@@ -1,67 +1,65 @@
-﻿using System;
-
-namespace EqualsVerifier.Tests.TestHelpers.Types
+﻿namespace EqualsVerifier.TestHelpers.Types
 {
     public static class RecursiveTypeHelper
     {
-        public static sealed class Node
+        public sealed class Node
         {
-            Node node;
+            public Node node;
         }
 
-        public static sealed class NodeArray
+        public sealed class NodeArray
         {
-            NodeArray[] nodeArrays;
+            public NodeArray[] nodeArrays;
         }
 
-        public static sealed class TwoStepNodeA
+        public sealed class TwoStepNodeA
         {
-            TwoStepNodeB node;
+            public TwoStepNodeB node;
         }
 
-        public static sealed class TwoStepNodeB
+        public sealed class TwoStepNodeB
         {
-            TwoStepNodeA node;
+            public TwoStepNodeA node;
         }
 
-        public static sealed class TwoStepNodeArrayA
+        public sealed class TwoStepNodeArrayA
         {
-            TwoStepNodeArrayB[] nodes;
+            public TwoStepNodeArrayB[] nodes;
         }
 
-        public static sealed class TwoStepNodeArrayB
+        public sealed class TwoStepNodeArrayB
         {
-            TwoStepNodeArrayA[] nodes;
+            public TwoStepNodeArrayA[] nodes;
         }
 
-        public static sealed class NotRecursiveA
+        public sealed class NotRecursiveA
         {
-            NotRecursiveB b;
-            NotRecursiveC c;
+            public NotRecursiveB b;
+            public NotRecursiveC c;
         }
 
-        public static sealed class NotRecursiveB
+        public sealed class NotRecursiveB
         {
-            NotRecursiveD d;
+            public NotRecursiveD d;
         }
 
-        public static sealed class NotRecursiveC
+        public sealed class NotRecursiveC
         {
-            NotRecursiveD d;
+            public NotRecursiveD d;
         }
 
-        public static sealed class NotRecursiveD
+        public sealed class NotRecursiveD
         {
 
         }
 
-        public static sealed class RecursiveWithAnotherFieldFirst
+        public sealed class RecursiveWithAnotherFieldFirst
         {
-            RecursiveThisIsTheOtherField point;
-            RecursiveWithAnotherFieldFirst recurse;
+            public RecursiveThisIsTheOtherField point;
+            public RecursiveWithAnotherFieldFirst recurse;
         }
 
-        public static sealed class RecursiveThisIsTheOtherField
+        public sealed class RecursiveThisIsTheOtherField
         {
 
         }

@@ -1,0 +1,11 @@
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/nunit.framework.dll
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/EqualsVerifier.Tests.dll.mdb
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/EqualsVerifier.Tests.dll
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/obj/Debug/EqualsVerifier.Tests.dll
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/obj/Debug/EqualsVerifier.Tests.dll.mdb
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/Shouldly.dll
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/Telerik.JustMock.dll
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/EqualsVerifier.dll
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/EqualsVerifier.dll.mdb
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/Castle.Core.dll

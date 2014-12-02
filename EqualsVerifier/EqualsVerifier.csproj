@@ -29,9 +29,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Exceptions\InternalException.cs" />
+    <Compile Include="Util\Exceptions\AssertionException.cs" />
+    <Compile Include="Util\Exceptions\RecursionException.cs" />
+    <Compile Include="Util\Exceptions\ReflectionException.cs" />
+    <Compile Include="Util\ObjectFormatter.cs" />
+    <Compile Include="Util\Instantiator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Util\" />
+    <Folder Include="Util\Exceptions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

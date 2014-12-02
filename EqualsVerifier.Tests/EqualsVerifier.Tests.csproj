@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4324997B-F7DA-4AA2-B81C-2DDC3F9985E1}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>EqualsVerifier.Tests</RootNamespace>
+    <RootNamespace>EqualsVerifier</RootNamespace>
     <AssemblyName>EqualsVerifier.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
@@ -32,6 +32,12 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Shouldly">
+      <HintPath>..\packages\Shouldly.2.3.0\lib\net40\Shouldly.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.JustMock">
+      <HintPath>..\packages\JustMock.2014.3.1021.2\lib\Net35\Telerik.JustMock.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -40,6 +46,7 @@
   <ItemGroup>
     <Folder Include="TestHelpers\" />
     <Folder Include="TestHelpers\Types\" />
+    <Folder Include="Util\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestHelpers\Types\BlindlyEqualsColorPoint.cs" />
@@ -61,5 +68,12 @@
     <Compile Include="TestHelpers\Types\MutableCanEqualColorPoint.cs" />
     <Compile Include="TestHelpers\Types\PointContainer.cs" />
     <Compile Include="TestHelpers\Types\RecursiveTypeHelper.cs" />
+    <Compile Include="Util\ObjectFormatterTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">
+      <Project>{BA7C66EA-FBE1-4A4B-8082-DCFFA00EE6B6}</Project>
+      <Name>EqualsVerifier</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

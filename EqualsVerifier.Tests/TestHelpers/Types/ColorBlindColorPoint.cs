@@ -1,4 +1,4 @@
-﻿namespace EqualsVerifier.Tests.TestHelpers.Types
+﻿namespace EqualsVerifier.TestHelpers.Types
 {
     public sealed class ColorBlindColorPoint : Point
     {
@@ -7,16 +7,6 @@
         public ColorBlindColorPoint(int x, int y, Color color) : base(x, y)
         {
             this.Color = color;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
 
         public override string ToString()

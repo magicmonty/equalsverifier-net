@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EqualsVerifier.Tests.TestHelpers
+namespace EqualsVerifier.TestHelpers
 {
     public static class Utils
     {

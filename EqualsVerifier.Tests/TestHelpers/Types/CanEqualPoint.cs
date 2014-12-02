@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace EqualsVerifier.Tests.TestHelpers.Types
+namespace EqualsVerifier.TestHelpers.Types
 {
     public class CanEqualPoint
     {
-        private readonly int _x;
-        private readonly int _y;
+        readonly int _x;
+        readonly int _y;
 
         public CanEqualPoint(int x, int y)
         {

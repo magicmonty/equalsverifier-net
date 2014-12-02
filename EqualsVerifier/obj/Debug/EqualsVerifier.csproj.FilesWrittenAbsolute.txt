@@ -1,0 +1,7 @@
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier/bin/Debug/EqualsVerifier.dll.mdb
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier/bin/Debug/EqualsVerifier.dll
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier/obj/Debug/EqualsVerifier.dll
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier/obj/Debug/EqualsVerifier.dll.mdb
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier/bin/Debug/Telerik.JustMock.dll
+/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier/bin/Debug/Castle.Core.dll

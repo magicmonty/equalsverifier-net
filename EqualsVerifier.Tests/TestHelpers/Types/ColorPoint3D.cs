@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EqualsVerifier.Tests.TestHelpers.Types
+﻿namespace EqualsVerifier.TestHelpers.Types
 {
     public sealed class ColorPoint3D : Point3D
     {

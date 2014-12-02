@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EqualsVerifier.Tests.TestHelpers.Types
+namespace EqualsVerifier.TestHelpers.Types
 {
     public class BlindlyEqualsPoint
     {

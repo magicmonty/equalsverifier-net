@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace EqualsVerifier.Tests.TestHelpers.Types
+﻿namespace EqualsVerifier.TestHelpers.Types
 {
     public sealed class CanEqualColorPoint: CanEqualPoint
     {
-        private readonly Color _color;
+        readonly Color _color;
 
         public CanEqualColorPoint(int x, int y, Color color) : base(x, y)
         {
