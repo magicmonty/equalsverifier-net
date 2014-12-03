@@ -7,9 +7,9 @@ namespace EqualsVerifier.Util.Exceptions
 {
     public class RecursionException: InternalException
     {
-        readonly LinkedList<Type> _typeStack;
+        readonly Stack<Type> _typeStack;
 
-        public RecursionException(LinkedList<Type> typeStack) : base()
+        public RecursionException(Stack<Type> typeStack) : base()
         {
             _typeStack = typeStack;
         }

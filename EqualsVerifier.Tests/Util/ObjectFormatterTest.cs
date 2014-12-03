@@ -1,8 +1,6 @@
 ﻿using NUnit.Framework;
 using Shouldly;
 using System;
-using Telerik.JustMock;
-using Telerik.JustMock.Helpers;
 
 namespace EqualsVerifier.Util
 {
@@ -54,39 +52,35 @@ namespace EqualsVerifier.Util
         [Test]
         public void OneAbstractParameter()
         {
-            var i = Instantiator<Abstract>.Of<Abstract>();
-            var sut = ObjectFormatter.Of("Abstract: %%", i.Instantiate());
+            var sut = ObjectFormatter.Of("Abstract: %%", Instantiator.Instantiate<Abstract>());
             sut.Format().ShouldContain("Abstract: [Abstract x=10]-throws NotImplementedException()");
         }
 
         [Test]
         public void OneConcreteSubclassParameter()
         {
-            var i = Instantiator<AbstractImpl>.Of<AbstractImpl>();
-            var sut = ObjectFormatter.Of("Concrete: %%", i.Instantiate());
+            var sut = ObjectFormatter.Of("Concrete: %%", Instantiator.Instantiate<AbstractImpl>());
             sut.Format().ShouldContain("Concrete: something concrete");
         }
 
         [Test]
         public void OneDelegatedAbstractParameter()
         {
-            var i = Instantiator<AbstractDelegation>.Of<AbstractDelegation>();
-            var sut = ObjectFormatter.Of("Abstract: %%", i.Instantiate());
+            var sut = ObjectFormatter.Of("Abstract: %%", Instantiator.Instantiate<AbstractDelegation>());
             sut.Format().ShouldContain("Abstract: [AbstractDelegation y=20]-throws NotImplementedException()");
         }
 
         [Test]
         public void OneDelegatedConcreteSubclassParameter()
         {
-            var i = Instantiator<AbstractDelegationImpl>.Of<AbstractDelegationImpl>();
-            var sut = ObjectFormatter.Of("Concrete: %%", i.Instantiate());
+            var sut = ObjectFormatter.Of("Concrete: %%", Instantiator.Instantiate<AbstractDelegationImpl>());
             sut.Format().ShouldContain("Concrete: something concrete");
         }
 
         [Test]
         public void OneThrowingContainerParameter()
         {
-            var tc = new ThrowingContainer(new Throwing(0, null));
+            var tc = new ThrowingContainer(Instantiator.Instantiate<Throwing>());
             var sut = ObjectFormatter.Of("TC: %%", tc);
             sut.Format().ShouldContain("TC: [ThrowingContainer _t=[Throwing _i=0 _s=null]-throws ArgumentException(msg)]-throws ArgumentException(msg)");
         }
@@ -94,8 +88,7 @@ namespace EqualsVerifier.Util
         [Test]
         public void OneAbstractContainerParameter()
         {
-            var i = Instantiator<AbstractDelegation>.Of<AbstractDelegation>();
-            var ac = new AbstractContainer(i.Instantiate());
+            var ac = new AbstractContainer(Instantiator.Instantiate<AbstractDelegation>());
 
             var sut = ObjectFormatter.Of("AC: %%", ac);
             sut.Format().ShouldContain("AC: [AbstractContainer _ad=[AbstractDelegation y=20]-throws NotImplementedException()]-throws NotImplementedException()");
@@ -168,6 +161,7 @@ namespace EqualsVerifier.Util
             }
         }
 
+        #pragma warning disable 414
         sealed class Simple
         {
             readonly int _i;
@@ -285,6 +279,7 @@ namespace EqualsVerifier.Util
                 throw new InvalidOperationException();
             }
         }
+        #pragma warning restore 414
     }
 }
 

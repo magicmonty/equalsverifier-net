@@ -41,6 +41,14 @@
     <Compile Include="Util\Exceptions\ReflectionException.cs" />
     <Compile Include="Util\ObjectFormatter.cs" />
     <Compile Include="Util\Instantiator.cs" />
+    <Compile Include="EqualsVerifier.cs" />
+    <Compile Include="StaticFieldValueStash.cs" />
+    <Compile Include="Util\FieldAccessor.cs" />
+    <Compile Include="Util\PrefabValues.cs" />
+    <Compile Include="Util\ClassAccessor.cs" />
+    <Compile Include="Util\ObjectAccessor.cs" />
+    <Compile Include="NetApiPrefabValues.cs" />
+    <Compile Include="Util\ArrayExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

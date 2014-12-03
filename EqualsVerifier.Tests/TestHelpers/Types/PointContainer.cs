@@ -2,7 +2,7 @@
 {
     public class PointContainer
     {
-        readonly Point point;
+        Point point;
 
         public PointContainer(Point point)
         {

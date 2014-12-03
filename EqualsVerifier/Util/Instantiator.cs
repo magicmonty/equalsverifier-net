@@ -1,33 +1,69 @@
 ﻿using System;
+using System.Linq;
 using Castle.DynamicProxy;
+using Castle.Components.DictionaryAdapter.Xml;
 
 namespace EqualsVerifier.Util
 {
-    public class Instantiator<T>
+    public static class Instantiator
     {
-        public static Instantiator<T> Of<T>()
-        {
-            return new Instantiator<T>();
-        }
-
-        public T Instantiate()
+        public static T Instantiate<T>()
         {
             if (typeof(T).IsAbstract || typeof(T).IsInterface)
-                return (T)CreateDynamicSubclass(typeof(T));
-
-            return Activator.CreateInstance<T>();
+                return InstantiateAnonymousSubclass<T>();
+                
+            return (T)CreateInstanceOf(typeof(T));
         }
 
-        public T InstantiateAnonymousSubclass()
+        public static object Instantiate(Type type)
+        {
+            if (type.IsAbstract || type.IsInterface)
+                return InstantiateAnonymousSubclass(type);
+
+            return CreateInstanceOf(type);
+        }
+
+        public static T InstantiateAnonymousSubclass<T>()
+        {
+            return CreateDynamicSubclass<T>();
+        }
+
+        public static object InstantiateAnonymousSubclass(Type type)
+        {
+            return CreateDynamicSubclass(type);
+        }
+
+        static object CreateInstanceOf(Type type)
+        {
+            try {
+                return Activator.CreateInstance(type);
+            }
+            catch (MissingMethodException) {
+
+                var parameters = type
+                    .GetConstructors()
+                    .FirstOrDefault()
+                    .GetParameters()
+                    .Select(p => p.ParameterType)
+                    .Select(t => t.IsValueType ? Activator.CreateInstance(t) : null)
+                    .ToArray();
+
+                return Activator.CreateInstance(type, parameters);
+            }
+        }
+
+        static T CreateDynamicSubclass<T>()
         {
             return (T)CreateDynamicSubclass(typeof(T));
         }
 
-        static object CreateDynamicSubclass(Type superclass)
+        static object CreateDynamicSubclass(Type baseType)
         {
             var proxyBuilder = new DefaultProxyBuilder();
-            var proxy = proxyBuilder.CreateClassProxyType(superclass, null, ProxyGenerationOptions.Default);
-            return Activator.CreateInstance(proxy);
+            var proxy = baseType.IsInterface
+                ? proxyBuilder.CreateInterfaceProxyTypeWithoutTarget(baseType, null, ProxyGenerationOptions.Default)
+                : proxyBuilder.CreateClassProxyType(baseType, null, ProxyGenerationOptions.Default);
+            return CreateInstanceOf(proxy);
         }
     }
 }

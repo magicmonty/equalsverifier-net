@@ -2,6 +2,7 @@
 {
     public enum Color
     {
+        UNKNOWN,
         YELLOW,
         BLUE,
         INDIGO

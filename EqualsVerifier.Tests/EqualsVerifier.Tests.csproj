@@ -47,6 +47,8 @@
     <Folder Include="TestHelpers\" />
     <Folder Include="TestHelpers\Types\" />
     <Folder Include="Util\" />
+    <Folder Include="Integration\" />
+    <Folder Include="Integration\BasicContract\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestHelpers\Types\BlindlyEqualsColorPoint.cs" />
@@ -69,6 +71,11 @@
     <Compile Include="TestHelpers\Types\PointContainer.cs" />
     <Compile Include="TestHelpers\Types\RecursiveTypeHelper.cs" />
     <Compile Include="Util\ObjectFormatterTest.cs" />
+    <Compile Include="Util\InstantiatorTest.cs" />
+    <Compile Include="TestHelpers\Types\TypeHelper.cs" />
+    <Compile Include="TestHelpers\IntegrationTestBase.cs" />
+    <Compile Include="Integration\BasicContract\HashCodeTest.cs" />
+    <Compile Include="Util\FieldAccessorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">
