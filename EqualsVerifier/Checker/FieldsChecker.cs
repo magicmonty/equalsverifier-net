@@ -10,6 +10,7 @@ namespace EqualsVerifier.Checker
         readonly ISet<Warning> _warningsToSuppress;
         readonly bool _allFieldsShouldBeUsed;
         readonly ISet<string> _allFieldsShouldBeUsedExceptions;
+        readonly PrefabValues _prefabValues;
 
         public FieldsChecker(
             ClassAccessor classAccessor, 
@@ -20,7 +21,8 @@ namespace EqualsVerifier.Checker
             _allFieldsShouldBeUsedExceptions = allFieldsShouldBeUsedExceptions;
             _allFieldsShouldBeUsed = allFieldsShouldBeUsed;
             _classAccessor = classAccessor;
-            _warningsToSuppress = warningsToSuppress;
+            _warningsToSuppress = new HashSet<Warning>(warningsToSuppress);
+            _prefabValues = classAccessor.PrefabValues;
         }
 
         public void Check()

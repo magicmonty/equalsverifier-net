@@ -10,13 +10,17 @@ namespace EqualsVerifier.Checker
 
         public NullChecker(ClassAccessor classAccessor, ISet<Warning> warningsToSuppress)
         {
-            _warningsToSuppress = warningsToSuppress;
+            _warningsToSuppress = new HashSet<Warning>(warningsToSuppress);
             _classAccessor = classAccessor;
         }
 
         public void Check()
         {
+            if (_warningsToSuppress.Contains(Warning.NULL_FIELDS))
+                return;
 
+            // FieldInspector<T> inspector = new FieldInspector<T>(classAccessor);
+            // inspector.check(new NullPointerExceptionFieldCheck());
         }
     }
 }

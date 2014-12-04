@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace EqualsVerifier.Checker
 {
-    public class AbstractDelegationChecker<T> : IChecker where T: class
+    public class AbstractDelegationChecker<T> : AbstractChecker where T: class
     {
         readonly ClassAccessor _classAccessor;
         readonly PrefabValues _prefabValues;
@@ -19,7 +19,7 @@ namespace EqualsVerifier.Checker
             _type = typeof(T);
         }
 
-        public void Check()
+        public override void Check()
         {
             CheckAbstractEqualsAndHashCode();
 
@@ -144,16 +144,6 @@ namespace EqualsVerifier.Checker
                 (isEqualsAbstract ? "Equals" : "GetHashCode"),
                 (isEqualsAbstract ? "GetHashCode" : "Equals"),
                 (bothShouldBeConcrete ? "Both should be concrete." : "Both should be either abstract or concrete."));
-        }
-
-        void Fail(ObjectFormatter formatter)
-        {
-            Fail(formatter.Format());
-        }
-
-        static void Fail(string message)
-        {
-            Assert.Fail(message);
         }
 
         TResult GetRedPrefabValue<TResult>(Type type)
