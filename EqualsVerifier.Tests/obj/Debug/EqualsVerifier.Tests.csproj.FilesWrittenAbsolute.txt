@@ -5,7 +5,6 @@
 /Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/obj/Debug/EqualsVerifier.Tests.dll.mdb
 /Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/nunit.framework.dll
 /Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/Shouldly.dll
-/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/Telerik.JustMock.dll
 /Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/EqualsVerifier.dll
 /Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/EqualsVerifier.dll.mdb
 /Users/martingondermann/Development/EqualsVerifier/EqualsVerifier.Tests/bin/Debug/Castle.Core.dll

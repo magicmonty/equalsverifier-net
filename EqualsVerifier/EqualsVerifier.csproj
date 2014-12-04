@@ -33,9 +33,6 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Security" />
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,6 +66,7 @@
     <Compile Include="Checker\AbstractChecker.cs" />
     <Compile Include="Checker\FieldInspector.cs" />
     <Compile Include="TestFrameworkBridge.cs" />
+    <Compile Include="Util\Assert.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

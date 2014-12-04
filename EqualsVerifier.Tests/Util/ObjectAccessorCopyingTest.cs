@@ -119,7 +119,13 @@ namespace EqualsVerifier.Util
             copy.ShouldNotBeSameAs(original);
             foreach (var field in type.GetFields(TypeHelper.DefaultBindingFlags)) {
                 try {
-                    Assert.That(field.GetValue(original), Is.EqualTo(field.GetValue(copy)), "On field: " + field.Name);
+                    TestFrameworkBridge.AssertEquals(
+                        ObjectFormatter.Of("On field: %%", field.Name), 
+                        field.GetValue(copy),
+                        field.GetValue(original));
+                }
+                catch (AssertionException) {
+                    throw;
                 }
                 catch (Exception e) {
                     throw new InvalidOperationException("Error", e);

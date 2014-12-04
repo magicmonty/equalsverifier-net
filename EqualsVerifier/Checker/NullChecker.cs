@@ -61,16 +61,16 @@ namespace EqualsVerifier.Checker
                     r();
                 }
                 catch (NullReferenceException e) {
-                    NullReferenceExceptionThrown(testedMethodName, field);
+                    NullReferenceExceptionThrown(testedMethodName, field, e);
                 }
                 catch (Exception e) {
                     ExceptionThrown(testedMethodName, field, e);
                 }
             }
 
-            static void NullReferenceExceptionThrown(string method, MemberInfo field)
+            static void NullReferenceExceptionThrown(string method, MemberInfo field, NullReferenceException e)
             {
-                TestFrameworkBridge.Fail(ObjectFormatter.Of("Non-nullity: %% throws NullReferenceException on field %%.", method, field.Name));
+                TestFrameworkBridge.Fail(ObjectFormatter.Of("Non-nullity: %% throws NullReferenceException on field %%.", method, field.Name), e);
             }
 
             static void ExceptionThrown(string method, MemberInfo field, Exception e)

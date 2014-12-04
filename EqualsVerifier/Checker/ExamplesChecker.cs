@@ -100,8 +100,8 @@ namespace EqualsVerifier.Checker
                     ObjectFormatter.Of("Non-nullity: true returned for null value"), 
                     nullity);
             }
-            catch (NullReferenceException) {
-                Fail(ObjectFormatter.Of("Non-nullity: NullReferenceException thrown"));
+            catch (NullReferenceException e) {
+                Fail(ObjectFormatter.Of("Non-nullity: NullReferenceException thrown"), e);
             }
         }
 
@@ -120,7 +120,7 @@ namespace EqualsVerifier.Checker
                 Fail(ObjectFormatter.Of("Type-check: equals throws InvalidCastException.\nAdd an 'is' or GetType() check."));
             }
             catch (Exception e) {
-                Fail(ObjectFormatter.Of("Type-check: equals throws %%.\nAdd an 'is' or GetType() check.", e.GetType().Name));
+                Fail(ObjectFormatter.Of("Type-check: equals throws %%.\nAdd an 'is' or GetType() check.", e.GetType().Name), e);
             }
         }
 

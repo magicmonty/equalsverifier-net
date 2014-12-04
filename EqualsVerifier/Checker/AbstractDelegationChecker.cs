@@ -1,6 +1,5 @@
 using EqualsVerifier.Util;
 using System;
-using NUnit.Framework;
 using System.Reflection;
 
 
@@ -94,14 +93,14 @@ namespace EqualsVerifier.Checker
                 instance.Equals(copy);
             }
             catch (Exception e) {
-                Fail(BuildAbstractDelegationErrorMessage(instanceClass, prefabPossible, "Equals", e.Message));
+                Fail(BuildAbstractDelegationErrorMessage(instanceClass, prefabPossible, "Equals", e.Message), e);
             }
 
             try {
                 instance.GetHashCode();
             }
             catch (Exception e) {
-                Fail(BuildAbstractDelegationErrorMessage(instanceClass, prefabPossible, "GetHashCode", e.Message));
+                Fail(BuildAbstractDelegationErrorMessage(instanceClass, prefabPossible, "GetHashCode", e.Message), e);
             }
         }
 

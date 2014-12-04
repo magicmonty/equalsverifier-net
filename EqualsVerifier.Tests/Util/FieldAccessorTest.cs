@@ -299,10 +299,10 @@ namespace EqualsVerifier.Util
 
             foreach (var field  in typeof(TypeHelper.AllTypesContainer).GetFields(TypeHelper.DefaultBindingFlags)) {
                 new FieldAccessor(changed, field).ChangeField(_prefabValues);
-                Assert.That(reference.Equals(changed), Is.False, "On field: " + field.Name);
+                TestFrameworkBridge.AssertFalse("On field: " + field.Name, reference.Equals(changed));
 
                 new FieldAccessor(reference, field).ChangeField(_prefabValues);
-                Assert.That(reference.Equals(changed), Is.True, "On field: " + field.Name);
+                TestFrameworkBridge.AssertTrue("On field: " + field.Name, reference.Equals(changed));
             }
         }
 
@@ -344,13 +344,13 @@ namespace EqualsVerifier.Util
         {
             var reference = new TypeHelper.AllArrayTypesContainer();
             var changed = new TypeHelper.AllArrayTypesContainer();
-            Assert.That(reference.Equals(changed), Is.True, "Before");
+            TestFrameworkBridge.AssertTrue("Before", reference.Equals(changed));
 
             foreach (var field in typeof(TypeHelper.AllArrayTypesContainer).GetFields(TypeHelper.DefaultBindingFlags)) {
                 new FieldAccessor(changed, field).ChangeField(_prefabValues);
-                Assert.That(reference.Equals(changed), Is.False, "On Field: " + field.Name);
+                TestFrameworkBridge.AssertFalse("On Field: " + field.Name, reference.Equals(changed));
                 new FieldAccessor(reference, field).ChangeField(_prefabValues);
-                Assert.That(reference.Equals(changed), Is.True, "On Field: " + field.Name);
+                TestFrameworkBridge.AssertTrue("On Field: " + field.Name, reference.Equals(changed));
             }
         }
 

@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
-using EqualsVerifier.Util;
+﻿using EqualsVerifier.Util;
 using System;
+using EqualsVerifier.Checker;
 
 namespace EqualsVerifier.Checker
 {
@@ -26,6 +26,11 @@ namespace EqualsVerifier.Checker
         protected static void Fail(ObjectFormatter formatter)
         {
             TestFrameworkBridge.Fail(formatter);
+        }
+
+        protected static void Fail(ObjectFormatter formatter, Exception cause)
+        {
+            TestFrameworkBridge.Fail(formatter, cause);
         }
 
         protected static void AssertionError(string message)

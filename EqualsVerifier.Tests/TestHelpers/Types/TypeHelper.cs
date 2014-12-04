@@ -239,6 +239,7 @@ namespace EqualsVerifier.TestHelpers.Types
             public DateTime date;
         }
 
+        #pragma warning disable 169
         public class AllRecursiveCollectionImplementationsContainer
         {
             LinkedList<object> linkedList;
@@ -250,6 +251,7 @@ namespace EqualsVerifier.TestHelpers.Types
             // SortedList sortedList;
             // SortedSet<object> sortedSet;
         }
+        #pragma warning restore 169
     }
 }
 

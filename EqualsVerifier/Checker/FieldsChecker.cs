@@ -32,7 +32,7 @@ namespace EqualsVerifier.Checker
         {
             var inspector = new FieldInspector<T>(_classAccessor);
 
-            if (_classAccessor.DeclaresEquals) {
+            if (_classAccessor.DeclaresEquals()) {
                 inspector.Check(new ArrayFieldCheck());
                 inspector.Check(new FloatAndDoubleFieldCheck());
                 inspector.Check(new ReflexivityFieldCheck(_classAccessor, _prefabValues, _warningsToSuppress));
@@ -218,7 +218,7 @@ namespace EqualsVerifier.Checker
 
             object ArrayCopy(object arrayObject)
             {
-                var array = arrayObject.ToArray();
+                var array = ArrayExtensions.ToArray(arrayObject);
                 var componentType = arrayObject.GetType().GetElementType();
                 var result = Array.CreateInstance(componentType, 1);
                 if (componentType.IsArray) {

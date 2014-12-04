@@ -8,7 +8,6 @@ namespace EqualsVerifier.Util
     {
         readonly IEnumerable<IAttribute> _supportedAttributes;
         readonly Type _type;
-        readonly bool _ignoreFailure;
         readonly ISet<IAttribute> _classAttributes = new HashSet<IAttribute>();
         readonly Dictionary<string, ISet<IAttribute>> _fieldAttributes = new Dictionary<string, ISet<IAttribute>>();
 
@@ -19,7 +18,6 @@ namespace EqualsVerifier.Util
         {
             _supportedAttributes = supportedAttributes;
             _type = type;
-            _ignoreFailure = ignoreFailure;
         }
 
         public bool TypeHas(IAttribute attribute)
