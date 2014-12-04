@@ -116,7 +116,7 @@ namespace EqualsVerifier.Checker
             try {
                 reference.Equals(somethingElse);
             }
-            catch (InvalidCastException e) {
+            catch (InvalidCastException) {
                 Fail(ObjectFormatter.Of("Type-check: equals throws InvalidCastException.\nAdd an 'is' or GetType() check."));
             }
             catch (Exception e) {
@@ -140,7 +140,7 @@ namespace EqualsVerifier.Checker
                     if (!NullSafeEquals(field.GetValue(reference), field.GetValue(other)))
                         return false;
                 }
-                catch (Exception e) {
+                catch (Exception) {
                     return false;
                 }
             }

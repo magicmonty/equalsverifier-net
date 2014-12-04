@@ -67,6 +67,8 @@
     <Compile Include="Checker\PreconditionChecker.cs" />
     <Compile Include="Checker\SignatureChecker.cs" />
     <Compile Include="Checker\AbstractChecker.cs" />
+    <Compile Include="Checker\FieldInspector.cs" />
+    <Compile Include="TestFrameworkBridge.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

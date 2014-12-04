@@ -10,32 +10,32 @@ namespace EqualsVerifier.Checker
 
         protected static void AssertFalse(ObjectFormatter message, bool actualValue)
         {
-            Assert.That(actualValue, Is.False, message.Format());
+            TestFrameworkBridge.AssertFalse(message, actualValue);
         }
 
         protected static void AssertTrue(ObjectFormatter message, bool actualValue)
         {
-            Assert.That(actualValue, Is.True, message.Format());
+            TestFrameworkBridge.AssertTrue(message, actualValue);
         }
 
         protected static void AssertEquals(ObjectFormatter message, object actualValue, object expectedValue)
         {
-            Assert.That(actualValue, Is.EqualTo(expectedValue), message.Format());
+            TestFrameworkBridge.AssertEquals(message, actualValue, expectedValue);
         }
 
         protected static void Fail(ObjectFormatter formatter)
         {
-            Assert.Fail(formatter.Format());
+            TestFrameworkBridge.Fail(formatter);
         }
 
         protected static void AssertionError(string message)
         {
-            throw new AssertionException(message);
+            TestFrameworkBridge.AssertionError(message);
         }
 
         protected static void AssertionError(string message, Exception cause)
         {
-            throw new AssertionException(message, cause);
+            TestFrameworkBridge.AssertionError(message, cause);
         }
     }
 }

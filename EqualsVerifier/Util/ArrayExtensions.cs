@@ -48,7 +48,7 @@ namespace EqualsVerifier.Util
             return result;
         }
 
-        static object[] ToArray(object obj)
+        public static object[] ToArray(object obj)
         {
             return (obj as IEnumerable).Cast<object>().ToArray();
         }
