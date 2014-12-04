@@ -74,18 +74,14 @@ namespace EqualsVerifier.Util
 
         public bool CanBeModifiedReflectively()
         {
-            return !_field.IsLiteral && !IsReadonly;
+            if (_field.IsLiteral || (IsReadonly && (IsStatic || _field.FieldType.Name == "String")))
+                return false;
             
 
-            /*
-            // CGLib, which is used by this class, adds several fields to classes
+            // Castle.DynamicProxy, which is used by this class, adds several fields to classes
             // that it creates. If they are changed using reflection, exceptions
             // are thrown.
-            if (field.getName().startsWith("CGLIB$")) {
-                return false;
-            }
-            */
-
+            return !_field.FieldType.FullName.StartsWith("Castle", StringComparison.InvariantCulture);
         }
 
         static void CreatePrefabValues(PrefabValues prefabValues, Type type)

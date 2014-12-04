@@ -162,7 +162,7 @@ namespace EqualsVerifier.Util
 
         void TraverseFields(Type type, Stack<Type> typeStack)
         {
-            foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)) {
+            foreach (var field in type.GetFields(FieldHelper.DeclaredOnly)) {
                 if (!field.IsInitOnly)
                     PutFor(field.FieldType, typeStack);
             }

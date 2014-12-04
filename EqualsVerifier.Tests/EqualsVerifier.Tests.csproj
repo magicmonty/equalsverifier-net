@@ -76,6 +76,10 @@
     <Compile Include="TestHelpers\IntegrationTestBase.cs" />
     <Compile Include="Integration\BasicContract\HashCodeTest.cs" />
     <Compile Include="Util\FieldAccessorTest.cs" />
+    <Compile Include="Util\ClassAccessorTest.cs" />
+    <Compile Include="Util\ObjectAccessorTest.cs" />
+    <Compile Include="Util\ObjectAccessorCopyingTest.cs" />
+    <Compile Include="Util\ObjectAccessorScramblingTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">

@@ -298,7 +298,7 @@ namespace EqualsVerifier.Util
             var changed = new TypeHelper.AllTypesContainer();
             reference.ShouldBe(changed);
 
-            foreach (var field  in typeof(TypeHelper.AllTypesContainer).GetFields(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public)) {
+            foreach (var field  in typeof(TypeHelper.AllTypesContainer).GetFields(TypeHelper.DefaultBindingFlags)) {
                 new FieldAccessor(changed, field).ChangeField(_prefabValues);
                 Assert.That(reference.Equals(changed), Is.False, "On field: " + field.Name);
 
@@ -347,7 +347,7 @@ namespace EqualsVerifier.Util
             var changed = new TypeHelper.AllArrayTypesContainer();
             Assert.That(reference.Equals(changed), Is.True, "Before");
 
-            foreach (var field in typeof(TypeHelper.AllArrayTypesContainer).GetFields(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public)) {
+            foreach (var field in typeof(TypeHelper.AllArrayTypesContainer).GetFields(TypeHelper.DefaultBindingFlags)) {
                 new FieldAccessor(changed, field).ChangeField(_prefabValues);
                 Assert.That(reference.Equals(changed), Is.False, "On Field: " + field.Name);
                 new FieldAccessor(reference, field).ChangeField(_prefabValues);
@@ -431,7 +431,7 @@ namespace EqualsVerifier.Util
         static FieldAccessor GetAccessorFor(object obj, string fieldName)
         {
             try {
-                var field = obj.GetType().GetField(fieldName, BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public);
+                var field = obj.GetType().GetField(fieldName, FieldHelper.DeclaredOnly);
                 if (field == null)
                     throw new ArgumentException("fieldName: " + fieldName);
 

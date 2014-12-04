@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using EqualsVerifier.Util;
+using System.Reflection;
 
 namespace EqualsVerifier.TestHelpers.Types
 {
@@ -11,7 +12,14 @@ namespace EqualsVerifier.TestHelpers.Types
 
         }
 
-        private static readonly object OBJECT = new object();
+        static readonly object OBJECT = new object();
+
+        public static readonly BindingFlags DefaultBindingFlags = 
+            BindingFlags.Static
+            | BindingFlags.Instance
+            | BindingFlags.DeclaredOnly
+            | BindingFlags.NonPublic
+            | BindingFlags.Public;
 
         public enum Enum
         {
@@ -111,6 +119,11 @@ namespace EqualsVerifier.TestHelpers.Types
         }
         #pragma warning restore 659
 
+        public class Empty
+        {
+
+        }
+
         public abstract class AbstractClass
         {
             public int Field;
@@ -124,6 +137,16 @@ namespace EqualsVerifier.TestHelpers.Types
         public class InterfaceContainer
         {
             public IInterface Field;
+        }
+
+        public class NoFields
+        {
+
+        }
+
+        public class NoFieldsSubWithFields : NoFields
+        {
+            public object Field;
         }
 
         public class ArrayContainer
@@ -196,6 +219,13 @@ namespace EqualsVerifier.TestHelpers.Types
         public class PointArrayContainer
         {
             public Point[] Points = { new Point(1, 2) };
+        }
+
+        public abstract class AbstractEqualsAndHashCode
+        {
+            public override abstract bool Equals(object obj);
+
+            public override abstract int GetHashCode();
         }
     }
 }

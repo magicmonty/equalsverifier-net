@@ -6,8 +6,8 @@ namespace EqualsVerifier.Util
 {
     public class ClassAccessor
     {
-        private readonly Type _type;
-        private readonly PrefabValues _prefabValues;
+        readonly Type _type;
+        readonly PrefabValues _prefabValues;
 
         public static ClassAccessor Of(Type type, PrefabValues prefabValues)
         {
@@ -27,9 +27,9 @@ namespace EqualsVerifier.Util
         public bool DeclaresField(FieldInfo field)
         {
             try {
-                return _type.GetField(field.Name) != null;
+                return _type.GetField(field.Name, FieldHelper.DeclaredOnly) != null;
             }
-            catch (Exception e) {
+            catch {
                 return false;
             }
         }
@@ -47,22 +47,21 @@ namespace EqualsVerifier.Util
         bool DeclaresMethod(string name, params Type[] parameterTypes)
         {
             try {
-                return _type.GetMethod(name, parameterTypes) != null;
+                return _type.GetMethod(
+                    name, 
+                    FieldHelper.DeclaredOnly,
+                    null,
+                    parameterTypes,
+                    null) != null;
             }
-            catch (Exception e) {
+            catch {
                 return false;
             }
         }
 
-        public bool IsEqualsAbstract()
-        {
-            return IsMethodAbstract("Equals", typeof(object));
-        }
+        public bool IsEqualsAbstract { get { return IsMethodAbstract("Equals", typeof(object)); } }
 
-        public bool IsGetHashCodeAbstract()
-        {
-            return IsMethodAbstract("GetHashCode");
-        }
+        public bool IsGetHashCodeAbstract { get { return IsMethodAbstract("GetHashCode"); } }
 
         bool IsMethodAbstract(string name, params Type[] parameterTypes)
         {
@@ -72,23 +71,24 @@ namespace EqualsVerifier.Util
             try {
                 return _type.GetMethod(name, parameterTypes).IsAbstract;
             }
-            catch (Exception e) {
+            catch {
                 throw new ReflectionException("Should never occur (famous last words)");
             }
         }
 
-        public bool IsEqualsInheritedFromObject()
-        {
-            var i = this;
-            while (i.Type != typeof(object)) {
-                if (i.DeclaresEquals() && !i.IsEqualsAbstract()) {
-                    return false;
+        public bool IsEqualsInheritedFromObject {
+            get
+            {
+                var currentAccessor = this;
+                while (currentAccessor.Type != typeof(object)) {
+                    if (currentAccessor.DeclaresEquals() && !currentAccessor.IsEqualsAbstract)
+                        return false;
+
+                    currentAccessor = currentAccessor.GetSuperAccessor();
                 }
 
-                i = i.GetSuperAccessor();
+                return true;
             }
-
-            return true;
         }
 
         public ClassAccessor GetSuperAccessor()

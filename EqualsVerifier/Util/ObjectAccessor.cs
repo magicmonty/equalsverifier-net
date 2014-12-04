@@ -1,18 +1,16 @@
 ﻿using System;
-using Castle.Components.DictionaryAdapter;
 using System.Reflection;
 
 namespace EqualsVerifier.Util
 {
     public class ObjectAccessor
     {
-        private readonly object _object;
-        private readonly Type _type;
+        readonly object _object;
+        readonly Type _type;
 
         public static ObjectAccessor Of(object obj)
         {
-            var type = obj.GetType();
-            return new ObjectAccessor(obj, type);
+            return new ObjectAccessor(obj, obj.GetType());
         }
 
         public static ObjectAccessor Of(object obj, Type type)
@@ -49,15 +47,15 @@ namespace EqualsVerifier.Util
             return CopyInto(copy);
         }
 
-        public object copyIntoAnonymousSubclass()
+        public object CopyIntoAnonymousSubclass()
         {
             var copy = Instantiator.InstantiateAnonymousSubclass(_type);
             return CopyInto(copy);
         }
 
-        private object CopyInto(object copy)
+        object CopyInto(object copy)
         {
-            foreach (var field in _type.GetFields(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.NonPublic)) {
+            foreach (var field in _type.GetFields(FieldHelper.AllFields)) {
                 var accessor = new FieldAccessor(_object, field);
                 accessor.CopyTo(copy);
             }
@@ -66,7 +64,11 @@ namespace EqualsVerifier.Util
 
         public void Scramble(PrefabValues prefabValues)
         {
-            foreach (var field in _type.GetFields(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.NonPublic)) {
+            foreach (var field in _type.GetFields(FieldHelper.AllFields)) {
+                // Ignore the generated fields
+                if (field.FieldType.FullName.Contains("Castle"))
+                    continue;
+
                 var accessor = new FieldAccessor(_object, field);
                 accessor.ChangeField(prefabValues);
             }
@@ -74,7 +76,11 @@ namespace EqualsVerifier.Util
 
         public void ShallowScramble(PrefabValues prefabValues)
         {
-            foreach (var field in _type.GetFields(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.NonPublic)) {
+            foreach (var field in _type.GetFields(FieldHelper.DeclaredOnly)) {
+                // Ignore the generated fields
+                if (field.FieldType.FullName.Contains("Castle"))
+                    continue;
+
                 var accessor = new FieldAccessor(_object, field);
                 accessor.ChangeField(prefabValues);
             }

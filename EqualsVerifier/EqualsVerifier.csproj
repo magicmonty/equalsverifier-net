@@ -49,6 +49,7 @@
     <Compile Include="Util\ObjectAccessor.cs" />
     <Compile Include="NetApiPrefabValues.cs" />
     <Compile Include="Util\ArrayExtensions.cs" />
+    <Compile Include="Util\FieldHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
