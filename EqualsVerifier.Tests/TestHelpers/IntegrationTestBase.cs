@@ -1,6 +1,6 @@
 ﻿using System;
 using Shouldly;
-using NUnit.Framework;
+using EqualsVerifier.Util.Exceptions;
 
 namespace EqualsVerifier.TestHelpers
 {

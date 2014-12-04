@@ -2,7 +2,6 @@
 using EqualsVerifier.TestHelpers.Types;
 using NUnit.Framework;
 using Shouldly;
-using Telerik.JustMock.AutoMock.Ninject.Planning.Bindings;
 using System.Reflection;
 
 namespace EqualsVerifier.Util

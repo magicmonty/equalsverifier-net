@@ -33,6 +33,9 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Security" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,11 +57,21 @@
     <Compile Include="Util\SupportedAnnotations.cs" />
     <Compile Include="Util\AttributeAccessor.cs" />
     <Compile Include="Util\IAttribute.cs" />
+    <Compile Include="Warning.cs" />
+    <Compile Include="Checker\AbstractDelegationChecker.cs" />
+    <Compile Include="Checker\ExamplesChecker.cs" />
+    <Compile Include="Checker\FieldsChecker.cs" />
+    <Compile Include="Checker\HierarchyChecker.cs" />
+    <Compile Include="Checker\IChecker.cs" />
+    <Compile Include="Checker\NullChecker.cs" />
+    <Compile Include="Checker\PreconditionChecker.cs" />
+    <Compile Include="Checker\SignatureChecker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Util\" />
     <Folder Include="Util\Exceptions\" />
+    <Folder Include="Checker\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
