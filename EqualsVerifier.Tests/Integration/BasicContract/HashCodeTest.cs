@@ -7,20 +7,14 @@ namespace EqualsVerifier.Integration.BasicContract
     [TestFixture]
     public class HashCodeTest : IntegrationTestBase
     {
-        /*
         [Test]
         public void GivenEqualObjects_WhenHashCodesAreUnequal_ThenFail()
         {
             ExpectFailure(
-                () => {
-                    EqualsVerifier
-                        .ForType(typeof(RandomHashCode))
-                        .Verify();
-                },
+                () => EqualsVerifier.ForType<RandomHashCode>().Verify(),
                 "hashCode: hashCodes should be equal", 
                 typeof(RandomHashCode).Name);
         }
-        */
 
         public class RandomHashCode : Point
         {
