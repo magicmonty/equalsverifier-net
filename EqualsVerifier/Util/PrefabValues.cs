@@ -170,7 +170,7 @@ namespace EqualsVerifier.Util
 
         void CreateAndPutInstances(Type type)
         {
-            var accessor = ClassAccessor.Of(type, this);
+            var accessor = ClassAccessor.Of(type, this, false);
             var red = accessor.GetRedObject();
             var black = accessor.GetBlackObject();
             Put(type, red, black);

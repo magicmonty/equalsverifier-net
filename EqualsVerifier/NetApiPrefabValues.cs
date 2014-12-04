@@ -1,5 +1,11 @@
 using EqualsVerifier.Util;
 using System;
+using Mono.Math;
+using System.Globalization;
+using System.Collections.Generic;
+using Castle.Components.DictionaryAdapter.Xml;
+using System.Runtime.InteropServices;
+using System.Collections;
 
 namespace EqualsVerifier
 {
@@ -20,6 +26,8 @@ namespace EqualsVerifier
         void AddFrameworkClasses()
         {
             AddPrimitiveClasses();
+            AddClasses();
+            AddCollections();
         }
 
         void AddPrimitiveClasses()
@@ -45,6 +53,21 @@ namespace EqualsVerifier
 
             _prefabValues.Put(typeof(object), new object(), new object());
             _prefabValues.Put(typeof(Type), typeof(object), typeof(string));
+        }
+
+        void AddClasses()
+        {
+            _prefabValues.Put(typeof(BigInteger), new BigInteger(0), new BigInteger(1));
+            _prefabValues.Put(typeof(DateTime), new DateTime(0), new DateTime(1));
+        }
+
+        void AddCollections()
+        {
+            _prefabValues.Put(
+                typeof(LinkedList<object>), 
+                new LinkedList<object>(new [] { new object() }), 
+                new LinkedList<object>(new [] { new object() }));
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using EqualsVerifier.Util.Exceptions;
+using System.Collections.Generic;
 
 namespace EqualsVerifier.Util
 {
@@ -8,16 +9,20 @@ namespace EqualsVerifier.Util
     {
         readonly Type _type;
         readonly PrefabValues _prefabValues;
+        readonly AttributeAccessor _attributeAccessor;
+        readonly bool _ignoreAttributeFailure;
 
-        public static ClassAccessor Of(Type type, PrefabValues prefabValues)
+        public static ClassAccessor Of(Type type, PrefabValues prefabValues, bool ignoreAttributeFailure)
         {
-            return new ClassAccessor(type, prefabValues);
+            return new ClassAccessor(type, prefabValues, SupportedAttributes.Values, ignoreAttributeFailure);
         }
 
-        ClassAccessor(Type type, PrefabValues prefabValues)
+        ClassAccessor(Type type, PrefabValues prefabValues, IEnumerable<IAttribute> supportedAttributes, bool ignoreAttributeFailure)
         {
             _type = type;
             _prefabValues = prefabValues;
+            _attributeAccessor = new AttributeAccessor(supportedAttributes, type, ignoreAttributeFailure);
+            _ignoreAttributeFailure = ignoreAttributeFailure;
         }
 
         public Type Type { get { return _type; } }
@@ -59,6 +64,16 @@ namespace EqualsVerifier.Util
             }
         }
 
+        public bool HasAttribute(IAttribute attribute)
+        {
+            return _attributeAccessor.TypeHas(attribute);
+        }
+
+        public bool FieldHasAttribute(FieldInfo field, IAttribute attribute)
+        {
+            return _attributeAccessor.FieldHas(field.Name, attribute);
+        }
+
         public bool IsEqualsAbstract { get { return IsMethodAbstract("Equals", typeof(object)); } }
 
         public bool IsGetHashCodeAbstract { get { return IsMethodAbstract("GetHashCode"); } }
@@ -93,7 +108,7 @@ namespace EqualsVerifier.Util
 
         public ClassAccessor GetSuperAccessor()
         {
-            return ClassAccessor.Of(_type.BaseType, _prefabValues);
+            return ClassAccessor.Of(_type.BaseType, _prefabValues, _ignoreAttributeFailure);
         }
 
         public object GetRedObject()
@@ -127,6 +142,12 @@ namespace EqualsVerifier.Util
         public object GetDefaultValuesObject()
         {
             var result = Instantiator.Instantiate(_type);
+            foreach (var field in _type.GetFields(FieldHelper.AllFields)) {
+                if (FieldHasAttribute(field, SupportedAttributes.NONNULL)) {
+                    var accessor = new FieldAccessor(result, field);
+                    accessor.ChangeField(_prefabValues);
+                }
+            }
             return result;
         }
 

@@ -32,6 +32,7 @@
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Security" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,6 +51,9 @@
     <Compile Include="NetApiPrefabValues.cs" />
     <Compile Include="Util\ArrayExtensions.cs" />
     <Compile Include="Util\FieldHelper.cs" />
+    <Compile Include="Util\SupportedAnnotations.cs" />
+    <Compile Include="Util\AttributeAccessor.cs" />
+    <Compile Include="Util\IAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -2,6 +2,11 @@
 using System.Linq;
 using EqualsVerifier.Util;
 using System.Reflection;
+using Mono.Math;
+using System.Globalization;
+using System.Runtime.Serialization;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace EqualsVerifier.TestHelpers.Types
 {
@@ -226,6 +231,24 @@ namespace EqualsVerifier.TestHelpers.Types
             public override abstract bool Equals(object obj);
 
             public override abstract int GetHashCode();
+        }
+
+        public class RecursiveApiClassesContainer
+        {
+            public BigInteger bigInteger;
+            public DateTime date;
+        }
+
+        public class AllRecursiveCollectionImplementationsContainer
+        {
+            LinkedList<object> linkedList;
+            // Dictionary<object, object> dictionary;
+            // HashSet<object> hashSet;
+            List<object> list;
+            Queue<object> queue;
+            // Stack<object> stack;
+            // SortedList sortedList;
+            // SortedSet<object> sortedSet;
         }
     }
 }
