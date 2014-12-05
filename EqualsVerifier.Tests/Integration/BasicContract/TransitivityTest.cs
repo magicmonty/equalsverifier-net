@@ -52,6 +52,14 @@ namespace EqualsVerifier.Integration.BasicContract
                 "Transitivity");
         }
 
+        [Test]
+        public void WhenEqualityForThreeFieldsIsCombinedUsingANDAndOR_ThenFail()
+        {
+            ExpectFailure(
+                () => EqualsVerifier.ForType<ThreeFieldsUsingANDOR>().Verify(),
+                "Transitivity");
+        }
+
         sealed class TwoFieldsUsingAND
         {
             readonly string _f;
@@ -154,6 +162,35 @@ namespace EqualsVerifier.Integration.BasicContract
                 && (
                     _f.NullSafeEquals(other._f)
                     || _g.NullSafeEquals(other._g)
+                    || _h.NullSafeEquals(other._h));
+            }
+
+            public override int GetHashCode()
+            {
+                return 42;
+            }
+        }
+
+        sealed class ThreeFieldsUsingANDOR
+        {
+            readonly string _f;
+            readonly string _g;
+            readonly string _h;
+
+            public ThreeFieldsUsingANDOR(string f, string g, string h)
+            {
+                _f = f;
+                _g = g;
+                _h = h;
+            }
+
+            public override bool Equals(object obj)
+            {
+                var other = obj as ThreeFieldsUsingANDOR;
+                return other != null
+                && (
+                    _f.NullSafeEquals(other._f)
+                    && _g.NullSafeEquals(other._g)
                     || _h.NullSafeEquals(other._h));
             }
 
