@@ -64,6 +64,16 @@ namespace EqualsVerifier.Integration.BasicContract
                 .Verify();
         }
 
+        [Test]
+        public void WhenIdenticalCopyWarningIsSuppressedUnnecessarily_ThenFail()
+        {
+            ExpectFailure(
+                () => EqualsVerifier.ForType<SealedPoint>().Suppress(Warning.IDENTICAL_COPY).Verify(),
+                "Unnecessary suppression", "IDENTICAL_COPY");
+
+        }
+
+
         #pragma warning disable 659
         #pragma warning disable 414
         sealed class ReflexivityIntentionallyBroken : Point
