@@ -24,7 +24,16 @@ namespace EqualsVerifier.Integration.BasicContract
 
         }
 
+        [Test]
+        public void GivenFieldsThatAreNull_WhenReferencesAreNotEqual_ThenFail()
+        {
+            ExpectFailure(
+                () => EqualsVerifier.ForType<ReflexivityBrokenOnNullFields>().Verify(),
+                "Reflexivity", typeof(ReflexivityBrokenOnNullFields).Name);
+        }
+
         #pragma warning disable 659
+        #pragma warning disable 414
         sealed class ReflexivityIntentionallyBroken : Point
         {
             // Instantiator.scramble will flip this boolean.
@@ -75,6 +84,47 @@ namespace EqualsVerifier.Integration.BasicContract
                 return this.GetDefaultHashCode();
             }
         }
+
+        sealed class ReflexivityBrokenOnNullFields
+        {
+            readonly object _a;
+
+            public ReflexivityBrokenOnNullFields(object a)
+            {
+                _a = a;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(this, obj))
+                    return true;
+
+                if (ReferenceEquals(null, obj))
+                    return false;
+
+                if (GetType() != obj.GetType())
+                    return false;
+
+                var other = (ReflexivityBrokenOnNullFields)obj;
+                if (_a == null)
+                {
+                    if (other._a != null)
+                        return false;
+
+                    // The following line was added to cause equals to be broken on reflexivity.
+                    return false;
+                }
+
+                return _a.Equals(other._a);
+
+            }
+
+            public override int GetHashCode()
+            {
+                return this.GetDefaultHashCode(); 
+            }
+        }
+        #pragma warning restore 414
         #pragma warning restore 659
     }
 }
