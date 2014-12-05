@@ -77,6 +77,14 @@ namespace EqualsVerifier.Integration.BasicContract
         }
 
         [Test]
+        public void WhenEqualityForFiveFieldsIsCombinedUsingANDsAndORs_ThenFail()
+        {
+            ExpectFailure(
+                () => EqualsVerifier.ForType<FiveFieldsUsingANDsAndORs>().Verify(),
+                "Transitivity");
+        }
+
+        [Test]
         [Ignore("This class is not transitive, and it should fail. See issue 78 for the original EqualsVerifier on Github.")]
         public void WhenInstancesAreEqualIfAtLeastTwoFieldsAreEqual_ThenFail()
         {
@@ -279,6 +287,40 @@ namespace EqualsVerifier.Integration.BasicContract
                     || _h.NullSafeEquals(other._h)
                     || _i.NullSafeEquals(other._i)
                     || _j.NullSafeEquals(other._j));
+            }
+
+            public override int GetHashCode()
+            {
+                return 42;
+            }
+        }
+
+        sealed class FiveFieldsUsingANDsAndORs
+        {
+            readonly string _f;
+            readonly string _g;
+            readonly string _h;
+            readonly string _i;
+            readonly string _j;
+
+            public FiveFieldsUsingANDsAndORs(string f, string g, string h, string i, string j)
+            {
+                _f = f;
+                _g = g;
+                _h = h;
+                _i = i;
+                _j = j;
+            }
+
+            public override bool Equals(object obj)
+            {
+                var other = obj as FiveFieldsUsingANDsAndORs;
+                return other != null && (
+                    _f.NullSafeEquals(other._f)
+                    || _g.NullSafeEquals(other._g)
+                    && _h.NullSafeEquals(other._h)
+                    || _i.NullSafeEquals(other._i)
+                    && _j.NullSafeEquals(other._j));
             }
 
             public override int GetHashCode()
