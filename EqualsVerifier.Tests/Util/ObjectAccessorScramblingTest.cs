@@ -79,11 +79,11 @@ namespace EqualsVerifier.Util
         public void PrivateReadonlyStringCannotBeScrambled()
         {
             var foo = new FinalAssignedStringContainer();
-            var before = foo.s;
+            var before = FinalAssignedStringContainer.s;
 
             Scramble(foo);
 
-            foo.s.ShouldBe(before);
+            FinalAssignedStringContainer.s.ShouldBe(before);
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace EqualsVerifier.Util
 
         class FinalAssignedStringContainer
         {
-            public readonly string s = "x";
+            public static readonly string s = "x";
         }
 
         class FinalAssignedPointContainer

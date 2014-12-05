@@ -31,10 +31,12 @@ namespace EqualsVerifier.Util
 
         public object Get()
         {
-            try {
+            try
+            {
                 return _field.GetValue(_object);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 throw new ReflectionException(e);
             }
         }
@@ -64,17 +66,19 @@ namespace EqualsVerifier.Util
             if (!CanBeModifiedReflectively())
                 return;
 
-            try {
+            try
+            {
                 modifier.Modify();
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 throw new ReflectionException(e);
             }
         }
 
         public bool CanBeModifiedReflectively()
         {
-            if (_field.IsLiteral || (IsReadonly && (IsStatic || _field.FieldType.Name == "String")))
+            if (_field.IsLiteral || (IsReadonly && IsStatic))
                 return false;
             
 
@@ -170,11 +174,13 @@ namespace EqualsVerifier.Util
             {
                 var type = _field.FieldType;
 
-                if (_prefabValues.Contains(type)) {
+                if (_prefabValues.Contains(type))
+                {
                     var newValue = _prefabValues.GetOther(type, _field.GetValue(_object));
                     _field.SetValue(_object, newValue);
                 }
-                else {
+                else
+                {
                     CreatePrefabValues(_prefabValues, type);
                     var newValue = _prefabValues.GetOther(type, _field.GetValue(_object));
                     _field.SetValue(_object, newValue);

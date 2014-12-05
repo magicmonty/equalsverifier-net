@@ -83,6 +83,7 @@
     <Compile Include="Integration\BasicContract\NonNullityTest.cs" />
     <Compile Include="Integration\BasicContract\ReflexivityTest.cs" />
     <Compile Include="Integration\BasicContract\SymmetryTest.cs" />
+    <Compile Include="Integration\BasicContract\TransitivityTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">
