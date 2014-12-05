@@ -22,6 +22,12 @@ namespace EqualsVerifier.Integration.BasicContract
                 typeof(TwoFieldsUsingOR).Name);
         }
 
+        [Test]
+        public void WhenEqualityForThreeFieldsIsCombinedUsingAND_ThenSucceed()
+        {
+            EqualsVerifier.ForType<ThreeFieldsUsingAND>().Verify();
+        }
+
         sealed class TwoFieldsUsingAND
         {
             readonly string _f;
@@ -63,15 +69,41 @@ namespace EqualsVerifier.Integration.BasicContract
             public override bool Equals(object obj)
             {
                 var other = obj as TwoFieldsUsingOR;
-                if (other == null)
-                    return false;
+                return other == null ? false : f.NullSafeEquals(other.f) || g.NullSafeEquals(other.g);
 
-                return f.NullSafeEquals(other.f) || g.NullSafeEquals(other.g);
             }
 
             public override int GetHashCode()
             {
                 return 42;
+            }
+        }
+
+        sealed class ThreeFieldsUsingAND
+        {
+            readonly string _f;
+            readonly string _g;
+            readonly string _h;
+
+            public ThreeFieldsUsingAND(string f, string g, string h)
+            {
+                _f = f;
+                _g = g;
+                _h = h;
+            }
+
+            public override bool Equals(object obj)
+            {
+                var other = obj as ThreeFieldsUsingAND;
+                return other != null
+                && _f.NullSafeEquals(other._f)
+                && _g.NullSafeEquals(other._g)
+                && _h.NullSafeEquals(other._h);
+            }
+
+            public override int GetHashCode()
+            {
+                return this.GetDefaultHashCode();
             }
         }
     }
