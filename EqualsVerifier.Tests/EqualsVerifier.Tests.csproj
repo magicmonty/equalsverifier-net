@@ -85,9 +85,10 @@
     <Compile Include="Integration\BasicContract\ReflexivityTest.cs" />
     <Compile Include="Integration\BasicContract\SymmetryTest.cs" />
     <Compile Include="Integration\BasicContract\TransitivityTest.cs" />
-    <Compile Include="Integration\ExtendedContract\AbstracDelegationTest.cs" />
     <Compile Include="Util\FieldEnumerableTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Integration\ExtendedContract\ArrayTest.cs" />
+    <Compile Include="Integration\ExtendedContract\AbstractDelegationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">

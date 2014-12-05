@@ -179,7 +179,6 @@ namespace EqualsVerifier.TestHelpers.Types
         {
             static object Field = new object();
         }
-        #pragma warning restore 414
 
         public class PrivateObjectContainer
         {
@@ -283,6 +282,7 @@ namespace EqualsVerifier.TestHelpers.Types
         {
             public long field = 0;
         }
+        #pragma warning restore 414
     }
 }
 

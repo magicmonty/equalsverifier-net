@@ -183,7 +183,9 @@ namespace EqualsVerifier.Integration.ExtendedContract
 
         internal abstract class AbstractClass
         {
+            #pragma warning disable 649
             int I;
+            #pragma warning restore 649
 
             public abstract void SomeMethod();
 

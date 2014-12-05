@@ -264,13 +264,13 @@ namespace EqualsVerifier.Checker
             {
                 TestFrameworkBridge.AssertEquals(
                     ObjectFormatter.Of(
-                        "Multidimensional array: ==, regular equals() or Arrays.equals() used instead of Arrays.deepEquals() for field %%.",
+                        "Multidimensional array: == or regular Equals() used for field %%.",
                         fieldName),
                     reference, changed);
 
                 TestFrameworkBridge.AssertEquals(
                     ObjectFormatter.Of(
-                        "Multidimensional array: regular hashCode() or Arrays.hashCode() used instead of Arrays.deepHashCode() for field %%.",
+                        "Multidimensional array: regular GetHashCode() used for field %%.",
                         fieldName),
                     reference.GetHashCode(), changed.GetHashCode());
             }
@@ -279,13 +279,13 @@ namespace EqualsVerifier.Checker
             {
                 TestFrameworkBridge.AssertEquals(
                     ObjectFormatter.Of(
-                        "Array: == or regular equals() used instead of Arrays.equals() for field %%.",
+                        "Array: == or regular Equals() used for field %%.",
                         fieldName),
                     reference, changed);
 
                 TestFrameworkBridge.AssertEquals(
                     ObjectFormatter.Of(
-                        "Array: regular hashCode() used instead of Arrays.hashCode() for field %%.",
+                        "Array: regular GetHashCode() used for field %%.",
                         fieldName),
                     reference.GetHashCode(), changed.GetHashCode());
             }
