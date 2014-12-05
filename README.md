@@ -7,3 +7,9 @@ Documentation is pending. In the mean time you can go to the documentation at th
 **THIS IS HEAVILY ALPHA YET!!!**
 
 [![Build Status](https://travis-ci.org/magicmonty/equalsverifier-net.svg?branch=master)](https://travis-ci.org/magicmonty/equalsverifier-net)
+
+## Donations
+I accept tips through [Gittip][tip] and [Flattr][flattr].
+
+[![Gittip](https://img.shields.io/gittip/magicmonty.svg?style=flat)](https://www.gittip.com/magicmonty/)
+[![Flattr](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=magicmonty&url=https%3A%2F%2Fgithub.com%2Fmagicmonty%2Fequalsverifier-net)
