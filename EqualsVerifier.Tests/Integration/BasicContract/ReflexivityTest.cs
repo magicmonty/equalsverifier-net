@@ -40,6 +40,14 @@ namespace EqualsVerifier.Integration.BasicContract
                 .Verify();
         }
 
+        [Test]
+        public void WhenObjectTypeIsCheckedAgainstWrongType_ThenFail()
+        {
+            ExpectFailure(
+                () => EqualsVerifier.ForType<WrongTypeCheck>().Verify(),
+                "Reflexivity", "object does not equal an identical copy of itself", typeof(WrongTypeCheck).Name);
+        }
+
         #pragma warning disable 659
         #pragma warning disable 414
         sealed class ReflexivityIntentionallyBroken : Point
@@ -131,6 +139,38 @@ namespace EqualsVerifier.Integration.BasicContract
             {
                 return this.GetDefaultHashCode(); 
             }
+        }
+
+        sealed class WrongTypeCheck
+        {
+            readonly int _foo;
+
+            public WrongTypeCheck(int foo)
+            {
+                _foo = foo;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(this, obj))
+                    return true;
+
+                if (!(obj is SomethingCompletelyDifferent))
+                    return false;
+
+                var other = (WrongTypeCheck)obj;
+                return _foo == other._foo;
+            }
+
+            public override int GetHashCode()
+            {
+                return this.GetDefaultHashCode();
+            }
+        }
+
+        class SomethingCompletelyDifferent
+        {
+
         }
         #pragma warning restore 414
         #pragma warning restore 659
