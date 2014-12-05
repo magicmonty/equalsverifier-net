@@ -66,9 +66,7 @@
     <Compile Include="Checker\FieldInspector.cs" />
     <Compile Include="TestFrameworkBridge.cs" />
     <Compile Include="Util\Assert.cs" />
-    <Compile Include="Checker\EqualsVerifier.cs">
-      <DependentUpon>IChecker.cs</DependentUpon>
-    </Compile>
+    <Compile Include="EqualsVerifier.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
