@@ -32,6 +32,14 @@ namespace EqualsVerifier.Integration.BasicContract
                 "Reflexivity", typeof(ReflexivityBrokenOnNullFields).Name);
         }
 
+        [Test]
+        public void GivenFieldsThatAreNullAndWarningIsSuppressed_WhenReferencesAreNotEqual_ThenSucceed()
+        {
+            EqualsVerifier.ForType<ReflexivityBrokenOnNullFields>()
+                .Suppress(Warning.NULL_FIELDS)
+                .Verify();
+        }
+
         #pragma warning disable 659
         #pragma warning disable 414
         sealed class ReflexivityIntentionallyBroken : Point
