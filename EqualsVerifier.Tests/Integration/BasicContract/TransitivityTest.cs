@@ -36,6 +36,22 @@ namespace EqualsVerifier.Integration.BasicContract
                 "Transitivity");
         }
 
+        [Test]
+        public void GivenRelaxedEqualExamples_WhenEqualityForThreeFieldsIsCombinedUsingOR_ThenFail()
+        {
+            var one = new ThreeFieldsUsingOR("a", "1", "alpha");
+            var two = new ThreeFieldsUsingOR("b", "1", "alpha");
+            var three = new ThreeFieldsUsingOR("c", "1", "alpha");
+            var other = new ThreeFieldsUsingOR("d", "4", "delta");
+
+            ExpectFailure(
+                () => EqualsVerifier
+                .ForRelaxedEqualExamples(one, two, three)
+                .AndUnequalExample(other)
+                .Verify(),
+                "Transitivity");
+        }
+
         sealed class TwoFieldsUsingAND
         {
             readonly string _f;
