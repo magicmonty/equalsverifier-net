@@ -76,6 +76,15 @@ namespace EqualsVerifier.Integration.BasicContract
                 "Transitivity");
         }
 
+        [Test]
+        [Ignore("This class is not transitive, and it should fail. See issue 78 for the original EqualsVerifier on Github.")]
+        public void WhenInstancesAreEqualIfAtLeastTwoFieldsAreEqual_ThenFail()
+        {
+            ExpectFailure(
+                () => EqualsVerifier.ForType<AtLeast2FieldsAreEqual>().Verify(),
+                "Transitivity");
+        }
+
         sealed class TwoFieldsUsingAND
         {
             readonly string _f;
@@ -270,6 +279,49 @@ namespace EqualsVerifier.Integration.BasicContract
                     || _h.NullSafeEquals(other._h)
                     || _i.NullSafeEquals(other._i)
                     || _j.NullSafeEquals(other._j));
+            }
+
+            public override int GetHashCode()
+            {
+                return 42;
+            }
+        }
+
+        sealed class AtLeast2FieldsAreEqual
+        {
+            readonly int _i;
+            readonly int _j;
+            readonly int _k;
+            readonly int _l;
+
+            public AtLeast2FieldsAreEqual(int i, int j, int k, int l)
+            {
+                _i = i;
+                _j = j;
+                _k = k;
+                _l = l;
+            }
+
+            public override bool Equals(object obj)
+            {
+                var other = obj as AtLeast2FieldsAreEqual;
+                if (other == null)
+                    return false;
+
+                int x = 0;
+                if (_i == other._i)
+                    x++;
+
+                if (_j == other._j)
+                    x++;
+
+                if (_k == other._k)
+                    x++;
+
+                if (_l == other._l)
+                    x++;
+
+                return x >= 2;
             }
 
             public override int GetHashCode()
