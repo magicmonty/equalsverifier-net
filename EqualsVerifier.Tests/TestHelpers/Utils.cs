@@ -21,7 +21,7 @@ namespace EqualsVerifier.TestHelpers
             int hash = 59;
             try
             {
-                foreach (var f in x.GetType().GetFields(FieldHelper.DeclaredOnly))
+                foreach (var f in FieldEnumerable.Of(x.GetType()))
                 {
                     if (IsRelevant(x, f))
                     {
@@ -43,6 +43,32 @@ namespace EqualsVerifier.TestHelpers
             var acc = new FieldAccessor(x, f);
             return acc.CanBeModifiedReflectively() && !acc.IsStatic;
         }
+
+        public static bool DefaultEquals(this object here, object there)
+        {
+            var type = here.GetType();
+            if (there == null || !there.GetType().IsAssignableFrom(type))
+                return false;
+
+            bool equals = true;
+            try
+            {
+                foreach (var f in FieldEnumerable.Of(type))
+                {
+                    if (IsRelevant(here, f))
+                    {
+                        var x = f.GetValue(here);
+                        var y = there == null ? null : f.GetValue(there);
+                        equals &= x.NullSafeEquals(y);
+                    }
+                }
+            }
+            catch (FieldAccessException e)
+            {
+                TestFrameworkBridge.Fail(e.ToString());
+            }
+
+            return equals;
+        }
     }
 }
-

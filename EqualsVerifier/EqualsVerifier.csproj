@@ -67,6 +67,7 @@
     <Compile Include="TestFrameworkBridge.cs" />
     <Compile Include="Util\Assert.cs" />
     <Compile Include="EqualsVerifier.cs" />
+    <Compile Include="Util\FieldEnumerable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

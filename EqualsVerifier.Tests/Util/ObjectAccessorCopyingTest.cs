@@ -114,20 +114,24 @@ namespace EqualsVerifier.Util
             return (TResult)ObjectAccessor.Of(original).CopyIntoSubclass(typeof(TResult));
         }
 
-        static void AssertAllFieldsEqual(object original, object copy, IReflect type)
+        static void AssertAllFieldsEqual(object original, object copy, Type type)
         {
             copy.ShouldNotBeSameAs(original);
-            foreach (var field in type.GetFields(TypeHelper.DefaultBindingFlags)) {
-                try {
+            foreach (var field in FieldEnumerable.Of(type))
+            {
+                try
+                {
                     TestFrameworkBridge.AssertEquals(
                         ObjectFormatter.Of("On field: %%", field.Name), 
                         field.GetValue(copy),
                         field.GetValue(original));
                 }
-                catch (AssertionException) {
+                catch (AssertionException)
+                {
                     throw;
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     throw new InvalidOperationException("Error", e);
                 }
             }

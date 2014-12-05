@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Castle.DynamicProxy;
-using Castle.Components.DictionaryAdapter.Xml;
 
 namespace EqualsVerifier.Util
 {
@@ -35,10 +34,12 @@ namespace EqualsVerifier.Util
 
         static object CreateInstanceOf(Type type)
         {
-            try {
+            try
+            {
                 return Activator.CreateInstance(type);
             }
-            catch (MissingMethodException) {
+            catch (MissingMethodException)
+            {
 
                 var parameters = type
                     .GetConstructors()
@@ -59,6 +60,10 @@ namespace EqualsVerifier.Util
 
         static object CreateDynamicSubclass(Type baseType)
         {
+            // Don't create sub types of already created proxy types
+            if (baseType.FullName.StartsWith("Castle", StringComparison.Ordinal) && baseType.Name.Contains("Proxy"))
+                baseType = baseType.BaseType;
+
             var proxyBuilder = new DefaultProxyBuilder();
             var proxy = baseType.IsInterface
                 ? proxyBuilder.CreateInterfaceProxyTypeWithoutTarget(baseType, null, ProxyGenerationOptions.Default)

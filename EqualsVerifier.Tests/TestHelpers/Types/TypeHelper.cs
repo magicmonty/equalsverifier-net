@@ -252,6 +252,37 @@ namespace EqualsVerifier.TestHelpers.Types
             // SortedSet<object> sortedSet;
         }
         #pragma warning restore 169
+
+        public class DifferentAccessModifiersFieldContainer
+        {
+            private readonly int i = 0;
+            internal readonly int j = 0;
+            protected readonly int k = 0;
+            public readonly int l = 0;
+
+            private static readonly int I = 0;
+            internal static int J = 0;
+            protected static readonly int K = 0;
+            public static readonly int L = 0;
+        }
+
+        public class DifferentAccessModifiersSubFieldContainer : DifferentAccessModifiersFieldContainer
+        {
+            private readonly string a = "";
+            internal readonly string b = "";
+            protected readonly string c = "";
+            public readonly string d = "";
+        }
+
+        public class EmptySubFieldContainer : DifferentAccessModifiersFieldContainer
+        {
+
+        }
+
+        public class SubEmptySubFieldContainer : EmptySubFieldContainer
+        {
+            public long field = 0;
+        }
     }
 }
 

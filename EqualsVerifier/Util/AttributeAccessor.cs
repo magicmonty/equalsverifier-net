@@ -45,7 +45,8 @@ namespace EqualsVerifier.Util
 
         void Process()
         {
-            if (processed) {
+            if (processed)
+            {
                 return;
             }
 
@@ -58,7 +59,8 @@ namespace EqualsVerifier.Util
             VisitType(_type, false);
             var i = _type.BaseType;
 
-            while (i != null && i != typeof(object)) {
+            while (i != null && i != typeof(object))
+            {
                 VisitType(i, true);
                 i = i.BaseType;
             }
@@ -67,12 +69,14 @@ namespace EqualsVerifier.Util
         void VisitType(Type type, bool inheriting)
         {
             var attribs = type.GetCustomAttributes(inheriting);
-            foreach (var attribute in attribs) {
+            foreach (var attribute in attribs)
+            {
                 var attributeTypeName = CleanAttributeName(attribute.GetType().Name);
                 Add(_classAttributes, attributeTypeName, inheriting);
             }
 
-            foreach (var field in type.GetFields(FieldHelper.DeclaredOnly)) {
+            foreach (var field in FieldEnumerable.OfIgnoringSuper(type))
+            {
                 if (field.FieldType.FullName.Contains("Castle"))
                     continue;
                 if (_fieldAttributes.ContainsKey(field.Name))
@@ -81,7 +85,8 @@ namespace EqualsVerifier.Util
                 var fieldAttributes = new HashSet<IAttribute>();
                 _fieldAttributes.Add(field.Name, fieldAttributes);
 
-                foreach (var attribute in field.GetCustomAttributes(inheriting)) {
+                foreach (var attribute in field.GetCustomAttributes(inheriting))
+                {
                     var attributeTypeName = CleanAttributeName(attribute.GetType().Name);
                     Add(fieldAttributes, attributeTypeName, inheriting);
                 }
@@ -98,9 +103,12 @@ namespace EqualsVerifier.Util
 
         void Add(ISet<IAttribute> attributes, string annotationDescriptor, bool inheriting)
         {
-            foreach (var attribute in _supportedAttributes) {
-                if (!inheriting || attribute.Inherits) {
-                    foreach (var descriptor in attribute.Descriptors) {
+            foreach (var attribute in _supportedAttributes)
+            {
+                if (!inheriting || attribute.Inherits)
+                {
+                    foreach (var descriptor in attribute.Descriptors)
+                    {
                         if (annotationDescriptor.Contains(descriptor))
                             attributes.Add(attribute);
                     }

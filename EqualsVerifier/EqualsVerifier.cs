@@ -32,11 +32,13 @@ namespace EqualsVerifier
 
         static IEnumerable<T> BuildListOfAtLeastTwo<T>(T first, T second, params T[] more) where T: class
         {
-            if (!first.GetType().IsValueType && first == null) {
+            if (!first.GetType().IsValueType && first == null)
+            {
                 throw new ArgumentNullException("first");
             }
 
-            if (!second.GetType().IsValueType && second == null) {
+            if (!second.GetType().IsValueType && second == null)
+            {
                 throw new ArgumentNullException("second");
             }
 
@@ -134,11 +136,13 @@ namespace EqualsVerifier
         {
             var otherType = typeof(TOther);
 
-            if (!otherType.IsValueType && (red == null || black == null)) {
+            if (!otherType.IsValueType && (red == null || black == null))
+            {
                 throw new NullReferenceException("One or both values are null.");
             }
 
-            if (red.Equals(black)) {
+            if (red.Equals(black))
+            {
                 throw new ArgumentException("Both values are equal.");
             }
 
@@ -164,15 +168,12 @@ namespace EqualsVerifier
             _allFieldsShouldBeUsed = true;
             _allFieldsShouldBeUsedExceptions = new HashSet<string>(fields);
 
-            var actualFieldNames = new HashSet<string>();
-            foreach (var field in _type.GetFields(FieldHelper.AllFields)) {
-                actualFieldNames.Add(field.Name);
-            }
+            var actualFieldNames = new HashSet<string>(FieldEnumerable.Of(_type).Select(f => f.Name));
 
-            foreach (var field in _allFieldsShouldBeUsedExceptions) {
-                if (!actualFieldNames.Contains(field)) {
+            foreach (var field in _allFieldsShouldBeUsedExceptions)
+            {
+                if (!actualFieldNames.Contains(field))
                     throw new ArgumentException("Class " + _type.Name + " does not contain field " + field + ".");
-                }
             }
 
             return this;
@@ -192,17 +193,21 @@ namespace EqualsVerifier
 
         public void Verify()
         {
-            try {
+            try
+            {
                 _stash.Backup(_type);
                 PerformVerification();
             }
-            catch (InternalException e) {
+            catch (InternalException e)
+            {
                 HandleError(e, e.InnerException);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 HandleError(e, e);
             }
-            finally {
+            finally
+            {
                 _stash.RestoreAll();
             }
         }
@@ -232,7 +237,8 @@ namespace EqualsVerifier
 
         void VerifyWithoutExamples(ClassAccessor classAccessor)
         {
-            RunCheckers(new IChecker[] {
+            RunCheckers(new IChecker[]
+            {
                 new SignatureChecker<T>(),
                 new AbstractDelegationChecker<T>(classAccessor),
                 new NullChecker<T>(classAccessor, _warningsToSuppress)
@@ -250,11 +256,21 @@ namespace EqualsVerifier
 
         void VerifyWithExamples(ClassAccessor classAccessor)
         {
-            RunCheckers(new IChecker[] {
+            RunCheckers(new IChecker[]
+            {
                 new PreconditionChecker<T>(_equalExamples, _unequalExamples),
                 new ExamplesChecker<T>(_equalExamples, _unequalExamples),
-                new HierarchyChecker<T>(classAccessor, _warningsToSuppress, _usingGetClass, _hasRedefinedSubclass, _redefinedSubclass),
-                new FieldsChecker<T>(classAccessor, _warningsToSuppress, _allFieldsShouldBeUsed, _allFieldsShouldBeUsedExceptions)
+                new HierarchyChecker<T>(
+                    classAccessor,
+                    _warningsToSuppress,
+                    _usingGetClass,
+                    _hasRedefinedSubclass,
+                    _redefinedSubclass),
+                new FieldsChecker<T>(
+                    classAccessor,
+                    _warningsToSuppress,
+                    _allFieldsShouldBeUsed,
+                    _allFieldsShouldBeUsedExceptions)
             });
         }
 

@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using System.Linq;
 
 namespace EqualsVerifier.Util
 {
@@ -59,33 +60,33 @@ namespace EqualsVerifier.Util
         {
             var result = message;
             var replacement = new Regex(Regex.Escape("%%"), RegexOptions.Compiled);
-            foreach (var obj in objects) {
+            foreach (var obj in objects)
+            {
                 var s = replacement.Replace(result, Stringify(obj), 1);
 
-                if (result.Equals(s)) {
+                if (result.Equals(s))
                     throw new InvalidOperationException("Too many parameters");
-                }
 
                 result = s;
             }
 
-            if (result.Contains("%%")) {
+            if (result.Contains("%%"))
                 throw new InvalidOperationException("Not enough parameters");
-            }
 
             return result;
         }
 
         string Stringify(object obj)
         {
-            if (obj == null) {
+            if (obj == null)
                 return "null";
-            }
 
-            try {
+            try
+            {
                 return obj.ToString();
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 return new StringBuilder()
                     .Append(StringifyByReflection(obj))
                     .Append("-throws ")
@@ -105,21 +106,15 @@ namespace EqualsVerifier.Util
             if (type.FullName.Contains("Castle") && type.FullName.Contains("Proxy"))
                 type = type.BaseType;
 
-            result.Append("[");
-            result.Append(type.Name);
+            result.AppendFormat("[{0}", type.Name);
 
-            foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.NonPublic)) {
+            FieldEnumerable
+                .Of(type)
+                .Select(field => new { field.Name, Value = field.GetValue(obj) })
+                .ToList()
+                .ForEach(f => result.AppendFormat(" {0}={1}", f.Name, Stringify(f.Value)));
 
-                var fieldName = field.Name;
-                result.Append(" ");
-                result.Append(fieldName);
-                result.Append("=");
-                var value = field.GetValue(obj);
-                result.Append(Stringify(value));
-            }
-
-            result.Append("]");
-            return result.ToString();
+            return result.Append("]").ToString();
         }
     }
 }

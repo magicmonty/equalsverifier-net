@@ -156,7 +156,7 @@ namespace EqualsVerifier.Checker
 
         static bool IsIdentical(T reference, T other)
         {
-            foreach (var field in reference.GetType().GetFields(FieldHelper.AllFields))
+            foreach (var field in FieldEnumerable.Of(reference.GetType()))
             {
                 try
                 {

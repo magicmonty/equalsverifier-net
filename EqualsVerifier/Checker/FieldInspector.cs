@@ -18,7 +18,8 @@ namespace EqualsVerifier.Checker
 
         public void Check(IFieldCheck check)
         {
-            foreach (var field in _classAccessor.Type.GetFields(FieldHelper.AllFields)) {
+            foreach (var field in FieldEnumerable.Of(_classAccessor.Type))
+            {
                 var reference = _classAccessor.GetRedAccessor();
                 var changed = _classAccessor.GetRedAccessor();
 

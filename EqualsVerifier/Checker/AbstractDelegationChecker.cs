@@ -37,28 +37,33 @@ namespace EqualsVerifier.Checker
             var equalsIsAbstract = _classAccessor.IsEqualsAbstract;
             var hashCodeIsAbstract = _classAccessor.IsGetHashCodeAbstract;
 
-            if (equalsIsAbstract && hashCodeIsAbstract) {
+            if (equalsIsAbstract && hashCodeIsAbstract)
+            {
 
                 Fail(ObjectFormatter.Of(
                     "Abstract delegation: %%'s Equals and GetHashCode methods are both abstract. They should be concrete.",
                     _type.Name));
             }
-            else if (equalsIsAbstract) {
+            else if (equalsIsAbstract)
+            {
                 Fail(BuildSingleAbstractMethodErrorMessage(_type, true, true));
             }
-            else if (hashCodeIsAbstract) {
+            else if (hashCodeIsAbstract)
+            {
                 Fail(BuildSingleAbstractMethodErrorMessage(_type, false, true));
             }
         }
 
         void CheckAbstractDelegationInFields()
         {
-            foreach (var field in _type.GetFields(FieldHelper.AllFields)) {
+            foreach (var field in FieldEnumerable.Of(_type))
+            {
                 var type = field.FieldType;
                 var instance = SafelyGetInstanceOf(type);
                 var copy = SafelyGetInstanceOf(type);
 
-                if (instance != null && copy != null) {
+                if (instance != null && copy != null)
+                {
                     CheckAbstractMethods(type, instance, copy, true);
                 }
             }
@@ -89,17 +94,21 @@ namespace EqualsVerifier.Checker
 
         void CheckAbstractMethods(MemberInfo instanceClass, object instance, object copy, bool prefabPossible)
         {
-            try {
+            try
+            {
                 instance.Equals(copy);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Fail(BuildAbstractDelegationErrorMessage(instanceClass, prefabPossible, "Equals", e.Message), e);
             }
 
-            try {
+            try
+            {
                 instance.GetHashCode();
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Fail(BuildAbstractDelegationErrorMessage(instanceClass, prefabPossible, "GetHashCode", e.Message), e);
             }
         }
@@ -126,16 +135,21 @@ namespace EqualsVerifier.Checker
             if (result != null)
                 return result;
 
-            try {
+            try
+            {
                 return Instantiator.Instantiate(type);
             }
-            catch {
+            catch
+            {
                 // If it fails for some reason, any reason, just return null.
                 return null;
             }
         }
 
-        static ObjectFormatter BuildSingleAbstractMethodErrorMessage(MemberInfo type, bool isEqualsAbstract, bool bothShouldBeConcrete)
+        static ObjectFormatter BuildSingleAbstractMethodErrorMessage(
+            MemberInfo type,
+            bool isEqualsAbstract,
+            bool bothShouldBeConcrete)
         {
             return ObjectFormatter.Of(
                 "Abstract delegation: %%'s %% method is abstract, but %% is not.\n%%",

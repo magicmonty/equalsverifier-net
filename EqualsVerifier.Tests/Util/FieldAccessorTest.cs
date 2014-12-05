@@ -297,7 +297,8 @@ namespace EqualsVerifier.Util
             var changed = new TypeHelper.AllTypesContainer();
             reference.ShouldBe(changed);
 
-            foreach (var field  in typeof(TypeHelper.AllTypesContainer).GetFields(TypeHelper.DefaultBindingFlags)) {
+            foreach (var field  in FieldEnumerable.Of(typeof(TypeHelper.AllTypesContainer)))
+            {
                 new FieldAccessor(changed, field).ChangeField(_prefabValues);
                 TestFrameworkBridge.AssertFalse("On field: " + field.Name, reference.Equals(changed));
 
@@ -346,7 +347,8 @@ namespace EqualsVerifier.Util
             var changed = new TypeHelper.AllArrayTypesContainer();
             TestFrameworkBridge.AssertTrue("Before", reference.Equals(changed));
 
-            foreach (var field in typeof(TypeHelper.AllArrayTypesContainer).GetFields(TypeHelper.DefaultBindingFlags)) {
+            foreach (var field in FieldEnumerable.Of(typeof(TypeHelper.AllArrayTypesContainer)))
+            {
                 new FieldAccessor(changed, field).ChangeField(_prefabValues);
                 TestFrameworkBridge.AssertFalse("On Field: " + field.Name, reference.Equals(changed));
                 new FieldAccessor(reference, field).ChangeField(_prefabValues);
@@ -429,14 +431,16 @@ namespace EqualsVerifier.Util
 
         static FieldAccessor GetAccessorFor(object obj, string fieldName)
         {
-            try {
+            try
+            {
                 var field = obj.GetType().GetField(fieldName, FieldHelper.DeclaredOnly);
                 if (field == null)
                     throw new ArgumentException("fieldName: " + fieldName);
 
                 return new FieldAccessor(obj, field);
             }
-            catch {
+            catch
+            {
                 throw new ArgumentException("fieldName: " + fieldName);
             }
         }

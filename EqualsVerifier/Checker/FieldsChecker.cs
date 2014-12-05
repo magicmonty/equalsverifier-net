@@ -32,17 +32,23 @@ namespace EqualsVerifier.Checker
         {
             var inspector = new FieldInspector<T>(_classAccessor);
 
-            if (_classAccessor.DeclaresEquals()) {
+            if (_classAccessor.DeclaresEquals())
+            {
                 inspector.Check(new ArrayFieldCheck());
                 inspector.Check(new FloatAndDoubleFieldCheck());
                 inspector.Check(new ReflexivityFieldCheck(_classAccessor, _prefabValues, _warningsToSuppress));
             }
 
-            if (!IgnoreMutability()) {
+            if (!IgnoreMutability())
+            {
                 inspector.Check(new MutableStateFieldCheck(_prefabValues));
             }
 
-            inspector.Check(new SignificantFieldCheck(_classAccessor, _prefabValues, _allFieldsShouldBeUsed, _allFieldsShouldBeUsedExceptions));
+            inspector.Check(new SignificantFieldCheck(
+                _classAccessor,
+                _prefabValues,
+                _allFieldsShouldBeUsed,
+                _allFieldsShouldBeUsedExceptions));
             inspector.Check(new SymmetryFieldCheck(_prefabValues));
             inspector.Check(new TransitivityFieldCheck(_prefabValues));
         }
@@ -102,8 +108,13 @@ namespace EqualsVerifier.Checker
                 var y = b1.Equals(b2);
                 var z = a1.Equals(b2);
 
-                if (CountFalses(x, y, z) == 1) {
-                    TestFrameworkBridge.Fail(ObjectFormatter.Of("Transitivity: two of these three instances are equal to each other, so the third one should be, too:\n-  %%\n-  %%\n-  %%", a1, b1, b2));
+                if (CountFalses(x, y, z) == 1)
+                {
+                    TestFrameworkBridge.Fail(ObjectFormatter.Of(
+                        "Transitivity: two of these three instances are equal to each other, so the third one should be, too:\n-  %%\n-  %%\n-  %%",
+                        a1,
+                        b1,
+                        b2));
                 }
             }
 
@@ -119,10 +130,10 @@ namespace EqualsVerifier.Checker
                 var objectAccessor = ObjectAccessor.Of(result);
                 objectAccessor.FieldAccessorFor(referenceField).ChangeField(_prefabValues);
 
-                foreach (var field in result.GetType().GetFields(FieldHelper.AllFields)) {
-                    if (!field.Equals(referenceField)) {
+                foreach (var field in FieldEnumerable.Of(result.GetType()))
+                {
+                    if (!field.Equals(referenceField))
                         objectAccessor.FieldAccessorFor(field).ChangeField(_prefabValues);
-                    }
                 }
 
                 return result;
@@ -141,7 +152,11 @@ namespace EqualsVerifier.Checker
             readonly ISet<string> _allFieldsShouldBeUsedExceptions;
             readonly ClassAccessor _classAccessor;
 
-            public SignificantFieldCheck(ClassAccessor classAccessor, PrefabValues prefabValues, bool allFieldsShouldBeUsed, ISet<string> allFieldsShouldBeUsedExceptions)
+            public SignificantFieldCheck(
+                ClassAccessor classAccessor,
+                PrefabValues prefabValues,
+                bool allFieldsShouldBeUsed,
+                ISet<string> allFieldsShouldBeUsedExceptions)
             {
                 _classAccessor = classAccessor;
                 _prefabValues = prefabValues;
@@ -161,26 +176,37 @@ namespace EqualsVerifier.Checker
                 var equalsChanged = !reference.Equals(changed);
                 var hashCodeChanged = reference.GetHashCode() != changed.GetHashCode();
 
-                if (equalsChanged != hashCodeChanged) {
+                if (equalsChanged != hashCodeChanged)
+                {
                     AssertFalse(
-                        ObjectFormatter.Of("Significant fields: equals relies on %%, but hashCode does not.", fieldName),
+                        ObjectFormatter.Of(
+                            "Significant fields: equals relies on %%, but hashCode does not.",
+                            fieldName),
                         equalsChanged);
-                    AssertFalse(ObjectFormatter.Of("Significant fields: hashCode relies on %%, but equals does not.", fieldName),
+                    AssertFalse(ObjectFormatter.Of(
+                        "Significant fields: hashCode relies on %%, but equals does not.",
+                        fieldName),
                         hashCodeChanged);
                 }
 
-                if (_allFieldsShouldBeUsed && !referenceAccessor.IsStatic) {
+                if (_allFieldsShouldBeUsed && !referenceAccessor.IsStatic)
+                {
                     var thisFieldShouldBeUsed = _allFieldsShouldBeUsed && !_allFieldsShouldBeUsedExceptions.Contains(fieldName);
                     AssertTrue(
                         ObjectFormatter.Of("Significant fields: equals does not use %%.", fieldName),
                         !thisFieldShouldBeUsed || equalsChanged);
 
-                    AssertTrue(ObjectFormatter.Of("Significant fields: equals should not use %%, but it does.", fieldName),
+                    AssertTrue(ObjectFormatter.Of(
+                        "Significant fields: equals should not use %%, but it does.",
+                        fieldName),
                         thisFieldShouldBeUsed || !equalsChanged);
 
-                    if (_classAccessor.DeclaresField(referenceAccessor.Field)) {
+                    if (_classAccessor.DeclaresField(referenceAccessor.Field))
+                    {
                         AssertTrue(
-                            ObjectFormatter.Of("Significant fields: all fields should be used, but %% has not defined an equals method.", _classAccessor.Type.Name),
+                            ObjectFormatter.Of(
+                                "Significant fields: all fields should be used, but %% has not defined an equals method.",
+                                _classAccessor.Type.Name),
                             _classAccessor.DeclaresEquals());
                     }
                 }
@@ -202,10 +228,12 @@ namespace EqualsVerifier.Checker
                 var changed = changedAccessor.Object;
                 ReplaceInnermostArrayValue(changedAccessor);
 
-                if (arrayType.GetElementType().IsArray) {
+                if (arrayType.GetElementType().IsArray)
+                {
                     AssertDeep(fieldName, reference, changed);
                 }
-                else {
+                else
+                {
                     AssertArray(fieldName, reference, changed);
                 }
             }
@@ -221,10 +249,12 @@ namespace EqualsVerifier.Checker
                 var array = ArrayExtensions.ToArray(arrayObject);
                 var componentType = arrayObject.GetType().GetElementType();
                 var result = Array.CreateInstance(componentType, 1);
-                if (componentType.IsArray) {
+                if (componentType.IsArray)
+                {
                     result.SetValue(ArrayCopy(array.GetValue(0)), 0);
                 }
-                else {
+                else
+                {
                     result.SetValue(array.GetValue(0), 0);
                 }
                 return result;
@@ -233,22 +263,30 @@ namespace EqualsVerifier.Checker
             static void AssertDeep(string fieldName, object reference, object changed)
             {
                 TestFrameworkBridge.AssertEquals(
-                    ObjectFormatter.Of("Multidimensional array: ==, regular equals() or Arrays.equals() used instead of Arrays.deepEquals() for field %%.", fieldName),
+                    ObjectFormatter.Of(
+                        "Multidimensional array: ==, regular equals() or Arrays.equals() used instead of Arrays.deepEquals() for field %%.",
+                        fieldName),
                     reference, changed);
 
                 TestFrameworkBridge.AssertEquals(
-                    ObjectFormatter.Of("Multidimensional array: regular hashCode() or Arrays.hashCode() used instead of Arrays.deepHashCode() for field %%.", fieldName),
+                    ObjectFormatter.Of(
+                        "Multidimensional array: regular hashCode() or Arrays.hashCode() used instead of Arrays.deepHashCode() for field %%.",
+                        fieldName),
                     reference.GetHashCode(), changed.GetHashCode());
             }
 
             static void AssertArray(string fieldName, object reference, object changed)
             {
                 TestFrameworkBridge.AssertEquals(
-                    ObjectFormatter.Of("Array: == or regular equals() used instead of Arrays.equals() for field %%.", fieldName),
+                    ObjectFormatter.Of(
+                        "Array: == or regular equals() used instead of Arrays.equals() for field %%.",
+                        fieldName),
                     reference, changed);
 
                 TestFrameworkBridge.AssertEquals(
-                    ObjectFormatter.Of("Array: regular hashCode() used instead of Arrays.hashCode() for field %%.", fieldName),
+                    ObjectFormatter.Of(
+                        "Array: regular hashCode() used instead of Arrays.hashCode() for field %%.",
+                        fieldName),
                     reference.GetHashCode(), changed.GetHashCode());
             }
         }
@@ -259,20 +297,26 @@ namespace EqualsVerifier.Checker
             {
                 var type = referenceAccessor.FieldType;
 
-                if (IsFloat(type)) {
+                if (IsFloat(type))
+                {
                     referenceAccessor.Set(float.NaN);
                     changedAccessor.Set(float.NaN);
                     TestFrameworkBridge.AssertEquals(
-                        ObjectFormatter.Of("Float: equals doesn't use Float.compare for field %%.", referenceAccessor.FieldName),
+                        ObjectFormatter.Of(
+                            "Float: equals doesn't use Float.compare for field %%.",
+                            referenceAccessor.FieldName),
                         referenceAccessor.Object, 
                         changedAccessor.Object);
                 }
 
-                if (IsDouble(type)) {
+                if (IsDouble(type))
+                {
                     referenceAccessor.Set(double.NaN);
                     changedAccessor.Set(double.NaN);
                     TestFrameworkBridge.AssertEquals(
-                        ObjectFormatter.Of("Double: equals doesn't use Double.compare for field %%.", referenceAccessor.FieldName),
+                        ObjectFormatter.Of(
+                            "Double: equals doesn't use Double.compare for field %%.",
+                            referenceAccessor.FieldName),
                         referenceAccessor.Object, 
                         changedAccessor.Object);
                 }
@@ -295,7 +339,10 @@ namespace EqualsVerifier.Checker
             readonly ISet<Warning> _warningsToSuppress;
             readonly PrefabValues _prefabValues;
 
-            public ReflexivityFieldCheck(ClassAccessor classAccessor, PrefabValues prefabValues, ISet<Warning> warningsToSuppress)
+            public ReflexivityFieldCheck(
+                ClassAccessor classAccessor,
+                PrefabValues prefabValues,
+                ISet<Warning> warningsToSuppress)
             {
                 _classAccessor = classAccessor;
                 _prefabValues = prefabValues;
@@ -313,9 +360,12 @@ namespace EqualsVerifier.Checker
                 CheckReflexivityFor(referenceAccessor, changedAccessor);
 
                 var fieldIsPrimitive = referenceAccessor.IsPrimitive;
-                var fieldIsNonNull = _classAccessor.FieldHasAttribute(referenceAccessor.Field, SupportedAttributes.NONNULL);
+                var fieldIsNonNull = _classAccessor.FieldHasAttribute(
+                                         referenceAccessor.Field,
+                                         SupportedAttributes.NONNULL);
                 var ignoreNull = fieldIsNonNull || _warningsToSuppress.Contains(Warning.NULL_FIELDS);
-                if (fieldIsPrimitive || !ignoreNull) {
+                if (fieldIsPrimitive || !ignoreNull)
+                {
                     referenceAccessor.DefaultField();
                     changedAccessor.DefaultField();
                     CheckReflexivityFor(referenceAccessor, changedAccessor);
@@ -327,14 +377,21 @@ namespace EqualsVerifier.Checker
                 var left = referenceAccessor.Object;
                 var right = changedAccessor.Object;
 
-                if (_warningsToSuppress.Contains(Warning.IDENTICAL_COPY)) {
+                if (_warningsToSuppress.Contains(Warning.IDENTICAL_COPY))
+                {
                     TestFrameworkBridge.AssertFalse(
-                        ObjectFormatter.Of("Unnecessary suppression: %%. Two identical copies are equal.", Warning.IDENTICAL_COPY.ToString()),
+                        ObjectFormatter.Of(
+                            "Unnecessary suppression: %%. Two identical copies are equal.",
+                            Warning.IDENTICAL_COPY.ToString()),
                         left.Equals(right));
                 }
-                else {
-                    var f = ObjectFormatter.Of("Reflexivity: object does not equal an identical copy of itself:\n  %%" +
-                            "\nIf this is intentional, consider suppressing Warning.%%", left, Warning.IDENTICAL_COPY.ToString());
+                else
+                {
+                    var f = ObjectFormatter.Of(
+                                "Reflexivity: object does not equal an identical copy of itself:\n  %%" +
+                                "\nIf this is intentional, consider suppressing Warning.%%",
+                                left,
+                                Warning.IDENTICAL_COPY.ToString());
                     TestFrameworkBridge.AssertEquals(f, left, right);
                 }
             }
@@ -358,9 +415,12 @@ namespace EqualsVerifier.Checker
 
                 var equalsChanged = !reference.Equals(changed);
 
-                if (equalsChanged && !referenceAccessor.IsReadonly) {
+                if (equalsChanged && !referenceAccessor.IsReadonly)
+                {
                     TestFrameworkBridge.Fail(
-                        ObjectFormatter.Of("Mutability: equals depends on mutable field %%.", referenceAccessor.FieldName));
+                        ObjectFormatter.Of(
+                            "Mutability: equals depends on mutable field %%.",
+                            referenceAccessor.FieldName));
                 }
 
                 referenceAccessor.ChangeField(_prefabValues);

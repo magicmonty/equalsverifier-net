@@ -4,4 +4,3 @@
 /Users/martingondermann/Development/EqualsVerifier/EqualsVerifier/obj/Debug/EqualsVerifier.dll
 /Users/martingondermann/Development/EqualsVerifier/EqualsVerifier/obj/Debug/EqualsVerifier.dll.mdb
 /Users/martingondermann/Development/EqualsVerifier/EqualsVerifier/bin/Debug/Castle.Core.dll
-/Users/martingondermann/Development/EqualsVerifier/EqualsVerifier/bin/Debug/nunit.framework.dll

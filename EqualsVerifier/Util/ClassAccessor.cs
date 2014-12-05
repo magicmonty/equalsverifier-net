@@ -17,7 +17,11 @@ namespace EqualsVerifier.Util
             return new ClassAccessor(type, prefabValues, SupportedAttributes.Values, ignoreAttributeFailure);
         }
 
-        ClassAccessor(Type type, PrefabValues prefabValues, IEnumerable<IAttribute> supportedAttributes, bool ignoreAttributeFailure)
+        ClassAccessor(
+            Type type,
+            PrefabValues prefabValues,
+            IEnumerable<IAttribute> supportedAttributes,
+            bool ignoreAttributeFailure)
         {
             _type = type;
             _prefabValues = prefabValues;
@@ -31,10 +35,12 @@ namespace EqualsVerifier.Util
 
         public bool DeclaresField(FieldInfo field)
         {
-            try {
+            try
+            {
                 return _type.GetField(field.Name, FieldHelper.DeclaredOnly) != null;
             }
-            catch {
+            catch
+            {
                 return false;
             }
         }
@@ -51,7 +57,8 @@ namespace EqualsVerifier.Util
 
         bool DeclaresMethod(string name, params Type[] parameterTypes)
         {
-            try {
+            try
+            {
                 return _type.GetMethod(
                     name, 
                     FieldHelper.DeclaredOnly,
@@ -59,7 +66,8 @@ namespace EqualsVerifier.Util
                     parameterTypes,
                     null) != null;
             }
-            catch {
+            catch
+            {
                 return false;
             }
         }
@@ -83,19 +91,23 @@ namespace EqualsVerifier.Util
             if (!DeclaresMethod(name, parameterTypes))
                 return false;
 
-            try {
+            try
+            {
                 return _type.GetMethod(name, parameterTypes).IsAbstract;
             }
-            catch {
+            catch
+            {
                 throw new ReflectionException("Should never occur (famous last words)");
             }
         }
 
-        public bool IsEqualsInheritedFromObject {
+        public bool IsEqualsInheritedFromObject
+        {
             get
             {
                 var currentAccessor = this;
-                while (currentAccessor.Type != typeof(object)) {
+                while (currentAccessor.Type != typeof(object))
+                {
                     if (currentAccessor.DeclaresEquals() && !currentAccessor.IsEqualsAbstract)
                         return false;
 
@@ -142,8 +154,10 @@ namespace EqualsVerifier.Util
         public object GetDefaultValuesObject()
         {
             var result = Instantiator.Instantiate(_type);
-            foreach (var field in _type.GetFields(FieldHelper.AllFields)) {
-                if (FieldHasAttribute(field, SupportedAttributes.NONNULL)) {
+            foreach (var field in FieldEnumerable.Of(_type))
+            {
+                if (FieldHasAttribute(field, SupportedAttributes.NONNULL))
+                {
                     var accessor = new FieldAccessor(result, field);
                     accessor.ChangeField(_prefabValues);
                 }

@@ -48,6 +48,7 @@
     <Folder Include="Integration\" />
     <Folder Include="Integration\BasicContract\" />
     <Folder Include="TestHelpers\Annotations\" />
+    <Folder Include="Integration\ExtendedContract\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestHelpers\Types\BlindlyEqualsColorPoint.cs" />
@@ -84,6 +85,9 @@
     <Compile Include="Integration\BasicContract\ReflexivityTest.cs" />
     <Compile Include="Integration\BasicContract\SymmetryTest.cs" />
     <Compile Include="Integration\BasicContract\TransitivityTest.cs" />
+    <Compile Include="Integration\ExtendedContract\AbstracDelegationTest.cs" />
+    <Compile Include="Util\FieldEnumerableTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">

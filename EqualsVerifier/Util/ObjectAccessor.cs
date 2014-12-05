@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Linq;
 
 namespace EqualsVerifier.Util
 {
@@ -55,35 +56,33 @@ namespace EqualsVerifier.Util
 
         object CopyInto(object copy)
         {
-            foreach (var field in _type.GetFields(FieldHelper.AllFields)) {
-                var accessor = new FieldAccessor(_object, field);
-                accessor.CopyTo(copy);
-            }
+            FieldEnumerable
+                .Of(_type)
+                .Select(f => new FieldAccessor(_object, f))
+                .ToList()
+                .ForEach(accessor => accessor.CopyTo(copy));
+
             return copy;
         }
 
         public void Scramble(PrefabValues prefabValues)
         {
-            foreach (var field in _type.GetFields(FieldHelper.AllFields)) {
-                // Ignore the generated fields
-                if (field.FieldType.FullName.Contains("Castle"))
-                    continue;
+            var fields = FieldEnumerable
+                .Of(_type)
+                .Select(f => new FieldAccessor(_object, f))
+                .ToList();
 
-                var accessor = new FieldAccessor(_object, field);
-                accessor.ChangeField(prefabValues);
-            }
+            fields.ForEach(accessor => accessor.ChangeField(prefabValues));
         }
 
         public void ShallowScramble(PrefabValues prefabValues)
         {
-            foreach (var field in _type.GetFields(FieldHelper.DeclaredOnly)) {
-                // Ignore the generated fields
-                if (field.FieldType.FullName.Contains("Castle"))
-                    continue;
+            var fields = FieldEnumerable
+                .OfIgnoringSuper(_type)
+                .Select(f => new FieldAccessor(_object, f))
+                .ToList();
 
-                var accessor = new FieldAccessor(_object, field);
-                accessor.ChangeField(prefabValues);
-            }
+            fields.ForEach(accessor => accessor.ChangeField(prefabValues));
         }
     }
 }

@@ -19,7 +19,8 @@ namespace EqualsVerifier.Util
 
         public void Put<T>(Type type, T red, T black)
         {
-            if (red.Equals(black)) {
+            if (red.Equals(black))
+            {
                 throw new ArgumentException("red equals black");
             }
 
@@ -54,11 +55,13 @@ namespace EqualsVerifier.Util
 
         public object GetOther(Type type, object value)
         {
-            if (type == null) {
+            if (type == null)
+            {
                 throw new ReflectionException("Type is null.");
             }
 
-            if (value != null && !type.IsAssignableFrom(value.GetType()) && !Wraps(type, value.GetType())) {
+            if (value != null && !type.IsAssignableFrom(value.GetType()) && !Wraps(type, value.GetType()))
+            {
                 throw new ReflectionException("Type does not match value.");
             }
 
@@ -67,11 +70,13 @@ namespace EqualsVerifier.Util
 
             var tuple = _values[type];
 
-            if (type.IsArray && tuple.Red.ArrayDeeplyEquals(value)) {
+            if (type.IsArray && tuple.Red.ArrayDeeplyEquals(value))
+            {
                 return tuple.Black;
             }
 
-            if (!type.IsArray && tuple.Red.Equals(value)) {
+            if (!type.IsArray && tuple.Red.Equals(value))
+            {
                 return tuple.Black;
             }
 
@@ -106,7 +111,8 @@ namespace EqualsVerifier.Util
             if (NoNeedToCreatePrefabValues(type))
                 return;
 
-            if (typeStack.Contains(type)) {
+            if (typeStack.Contains(type))
+            {
                 throw new RecursionException(typeStack);
             }
 
@@ -118,7 +124,8 @@ namespace EqualsVerifier.Util
                 PutEnumInstances(type);
             else if (type.IsArray)
                 PutArrayInstances(type, clone);
-            else {
+            else
+            {
                 TraverseFields(type, clone);
                 CreateAndPutInstances(type);
             }
@@ -134,7 +141,8 @@ namespace EqualsVerifier.Util
 
             var enumConstants = type.GetEnumValues();
 
-            switch (enumConstants.Length) {
+            switch (enumConstants.Length)
+            {
                 case 0:
                     throw new ReflectionException("Enum " + type.Name + " has no elements");
                 case 1:
@@ -162,10 +170,12 @@ namespace EqualsVerifier.Util
 
         void TraverseFields(Type type, Stack<Type> typeStack)
         {
-            foreach (var field in type.GetFields(FieldHelper.DeclaredOnly)) {
-                if (!field.IsInitOnly)
-                    PutFor(field.FieldType, typeStack);
-            }
+            FieldEnumerable
+                .Of(type)
+                .Where(f => !f.IsInitOnly)
+                .Select(f => f.FieldType)
+                .ToList()
+                .ForEach(t => PutFor(t, typeStack));
         }
 
         void CreateAndPutInstances(Type type)
