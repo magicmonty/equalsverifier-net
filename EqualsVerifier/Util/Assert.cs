@@ -7,7 +7,8 @@ namespace EqualsVerifier.Util
     {
         public static void AssertEquals(ObjectFormatter message, object expected, object actual)
         {
-            if (!expected.Equals(actual)) {
+            if (!expected.Equals(actual))
+            {
                 throw new AssertionException(message);
             }
         }
@@ -19,7 +20,8 @@ namespace EqualsVerifier.Util
 
         public static void AssertFalse(ObjectFormatter message, bool assertion)
         {
-            if (assertion) {
+            if (assertion)
+            {
                 throw new AssertionException(message);
             }
         }
@@ -31,9 +33,15 @@ namespace EqualsVerifier.Util
 
         public static void AssertTrue(ObjectFormatter message, bool assertion)
         {
-            if (!assertion) {
+            if (!assertion)
+            {
                 throw new AssertionException(message);
             }
+        }
+
+        public static void Fail(string message)
+        {
+            Fail(ObjectFormatter.Of(message));
         }
 
         public static void Fail(ObjectFormatter message)

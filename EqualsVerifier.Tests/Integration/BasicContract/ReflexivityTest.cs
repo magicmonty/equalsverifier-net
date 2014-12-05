@@ -15,6 +15,15 @@ namespace EqualsVerifier.Integration.BasicContract
                 "Reflexivity", "object does not equal itself", typeof(ReflexivityIntentionallyBroken).Name);
         }
 
+        [Test]
+        public void WhenTheWrongFieldsAreComparedInEquals_ThenFail()
+        {
+            ExpectFailure(
+                () => EqualsVerifier.ForType<FieldsMixedUpInEquals>().Verify(),
+                "Reflexivity", "object does not equal an identical copy of itself", typeof(FieldsMixedUpInEquals).Name);
+
+        }
+
         #pragma warning disable 659
         sealed class ReflexivityIntentionallyBroken : Point
         {
@@ -31,6 +40,39 @@ namespace EqualsVerifier.Integration.BasicContract
                     return false;
 
                 return base.Equals(obj);
+            }
+        }
+
+        sealed class FieldsMixedUpInEquals
+        {
+            string _one;
+            string _two;
+            string _unused;
+
+            public FieldsMixedUpInEquals(string one, string two, string unused)
+            { 
+                this._one = one; 
+                this._two = two; 
+                this._unused = unused; 
+            }
+
+            public override bool Equals(object obj)
+            {
+                // EV must also find the error when equals short-circuits.
+                if (ReferenceEquals(obj, this))
+                    return true;
+
+                var other = obj as FieldsMixedUpInEquals;
+                if (ReferenceEquals(null, other))
+                    return false;
+
+                return _two.NullSafeEquals(other._one)
+                && _two.NullSafeEquals(other._two);
+            }
+
+            public override int GetHashCode()
+            {
+                return this.GetDefaultHashCode();
             }
         }
         #pragma warning restore 659

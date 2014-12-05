@@ -31,6 +31,11 @@ namespace EqualsVerifier
             Assert.AssertEquals(message, expectedValue, actualValue);
         }
 
+        public static void Fail(string message)
+        {
+            Assert.Fail(message);
+        }
+
         public static void Fail(ObjectFormatter formatter)
         {
             Assert.Fail(formatter);
