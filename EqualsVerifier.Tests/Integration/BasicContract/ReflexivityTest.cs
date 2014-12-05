@@ -48,6 +48,14 @@ namespace EqualsVerifier.Integration.BasicContract
                 "Reflexivity", "object does not equal an identical copy of itself", typeof(WrongTypeCheck).Name);
         }
 
+        [Test]
+        public void GivenObjectsThatAreIdentical_WhenEqualsReturnsFalse_ThenFail()
+        {
+            ExpectFailure(
+                () => EqualsVerifier.ForType<SuperCallerWithUnusedField>().Verify(),
+                "Reflexivity", "identical copy");
+        }
+
         #pragma warning disable 659
         #pragma warning disable 414
         sealed class ReflexivityIntentionallyBroken : Point
@@ -171,6 +179,26 @@ namespace EqualsVerifier.Integration.BasicContract
         class SomethingCompletelyDifferent
         {
 
+        }
+
+        sealed class SuperCallerWithUnusedField
+        {
+            readonly int _unused;
+
+            public SuperCallerWithUnusedField(int unused)
+            {
+                _unused = unused;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return base.Equals(obj);
+            }
+
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
+            }
         }
         #pragma warning restore 414
         #pragma warning restore 659
