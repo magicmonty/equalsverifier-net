@@ -56,6 +56,14 @@ namespace EqualsVerifier.Integration.BasicContract
                 "Reflexivity", "identical copy");
         }
 
+        [Test]
+        public void GivenObjectsThatAreIdenticalAndWarningIsSuppressed_WhenEqualsReturnsFalse_ThenSucceed()
+        {
+            EqualsVerifier.ForType<SuperCallerWithUnusedField>()
+                .Suppress(Warning.IDENTICAL_COPY)
+                .Verify();
+        }
+
         #pragma warning disable 659
         #pragma warning disable 414
         sealed class ReflexivityIntentionallyBroken : Point
