@@ -6,5 +6,4 @@ Documentation is pending. In the mean time you can go to the documentation at th
 
 **THIS IS HEAVILY ALPHA YET!!!**
 
-[![Build Status](https://travis-ci.org/magicmonty/equalsverifier-net.png)](https://travis-ci.org/magicmonty/equalsverifier-net)
-
+[![Build Status](https://travis-ci.org/magicmonty/equalsverifier-net.svg?branch=master)](https://travis-ci.org/magicmonty/equalsverifier-net)
