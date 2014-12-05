@@ -68,6 +68,14 @@ namespace EqualsVerifier.Integration.BasicContract
                 "Transitivity");
         }
 
+        [Test]
+        public void WhenEqualityForFiveFieldsIsCombinedUsingOR_ThenFail()
+        {
+            ExpectFailure(
+                () => EqualsVerifier.ForType<FiveFieldsUsingOR>().Verify(),
+                "Transitivity");
+        }
+
         sealed class TwoFieldsUsingAND
         {
             readonly string _f;
@@ -228,6 +236,40 @@ namespace EqualsVerifier.Integration.BasicContract
                     _f.NullSafeEquals(other._f)
                     || _g.NullSafeEquals(other._g)
                     && _h.NullSafeEquals(other._h));
+            }
+
+            public override int GetHashCode()
+            {
+                return 42;
+            }
+        }
+
+        sealed class FiveFieldsUsingOR
+        {
+            readonly string _f;
+            readonly string _g;
+            readonly string _h;
+            readonly string _i;
+            readonly string _j;
+
+            public FiveFieldsUsingOR(string f, string g, string h, string i, string j)
+            {
+                _f = f;
+                _g = g;
+                _h = h;
+                _i = i;
+                _j = j;
+            }
+
+            public override bool Equals(object obj)
+            {
+                var other = obj as FiveFieldsUsingOR;
+                return other != null && (
+                    _f.NullSafeEquals(other._f)
+                    || _g.NullSafeEquals(other._g)
+                    || _h.NullSafeEquals(other._h)
+                    || _i.NullSafeEquals(other._i)
+                    || _j.NullSafeEquals(other._j));
             }
 
             public override int GetHashCode()
