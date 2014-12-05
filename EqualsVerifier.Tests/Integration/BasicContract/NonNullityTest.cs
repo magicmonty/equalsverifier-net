@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using EqualsVerifier.TestHelpers;
 using EqualsVerifier.TestHelpers.Types;
+using System;
 
 namespace EqualsVerifier.Integration.BasicContract
 {
@@ -24,6 +25,13 @@ namespace EqualsVerifier.Integration.BasicContract
             ;
         }
 
+        [Test]
+        public void WhenEqualsDoesNotTypeCheck_ThenFail()
+        {
+            ExpectFailureWithCause<InvalidCastException>(
+                () => EqualsVerifier.ForType<NoTypeCheck>().Verify(),
+                "Type-check: equals throws InvalidCastException");
+        }
 
         #pragma warning disable 659
         sealed class NullReferenceExceptionThrower : Point
@@ -50,6 +58,23 @@ namespace EqualsVerifier.Integration.BasicContract
             }
         }
 
+        sealed class NoTypeCheck
+        {
+            int _i;
+
+            public NoTypeCheck(int i)
+            {
+                _i = i;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj == null)
+                    return false;
+
+                return _i == ((NoTypeCheck)obj)._i;
+            }
+        }
         #pragma warning restore 659
     }
 }

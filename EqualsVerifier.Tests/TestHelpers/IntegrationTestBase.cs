@@ -8,7 +8,18 @@ namespace EqualsVerifier.TestHelpers
     {
         public void ExpectFailureWithCause<T>(Action action, params string[] fragments) where T: Exception
         {
-            ExpectException<T>(action, fragments);
+            Should.Throw<AssertionException>(action);
+            try
+            {
+                action();
+            }
+            catch (AssertionException e)
+            {
+                e.InnerException.ShouldNotBe(null);
+                e.InnerException.ShouldBeOfType(typeof(T));
+                foreach (var fragment in fragments)
+                    e.Message.ShouldContain(fragment);
+            }
         }
 
         public void ExpectFailure(Action action, params string[] fragments)
@@ -19,10 +30,12 @@ namespace EqualsVerifier.TestHelpers
         public void ExpectException<T>(Action action, params string[] fragments) where T: Exception
         {
             Should.Throw<T>(action);
-            try {
+            try
+            {
                 action();
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 e.ShouldBeOfType(typeof(T));
                 foreach (var fragment in fragments)
                     e.Message.ShouldContain(fragment);

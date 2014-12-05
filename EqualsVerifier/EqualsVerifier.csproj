@@ -42,7 +42,6 @@
     <Compile Include="Util\Exceptions\ReflectionException.cs" />
     <Compile Include="Util\ObjectFormatter.cs" />
     <Compile Include="Util\Instantiator.cs" />
-    <Compile Include="EqualsVerifier.cs" />
     <Compile Include="StaticFieldValueStash.cs" />
     <Compile Include="Util\FieldAccessor.cs" />
     <Compile Include="Util\PrefabValues.cs" />
@@ -67,6 +66,9 @@
     <Compile Include="Checker\FieldInspector.cs" />
     <Compile Include="TestFrameworkBridge.cs" />
     <Compile Include="Util\Assert.cs" />
+    <Compile Include="Checker\EqualsVerifier.cs">
+      <DependentUpon>IChecker.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

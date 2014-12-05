@@ -21,26 +21,31 @@ namespace EqualsVerifier.Checker
         public override void Check()
         {
 
-            for (int i = 0; i < _equalExamples.Length; i++) {
+            for (int i = 0; i < _equalExamples.Length; i++)
+            {
                 var reference = _equalExamples[i];
                 CheckSingle(reference);
 
-                for (int j = i + 1; j < _equalExamples.Length; j++) {
+                for (int j = i + 1; j < _equalExamples.Length; j++)
+                {
                     var other = _equalExamples[j];
                     CheckEqualButNotIdentical(reference, other);
                     CheckHashCode(reference, other);
                 }
 
-                foreach (var other in _unequalExamples) {
+                foreach (var other in _unequalExamples)
+                {
                     CheckDouble(reference, other);
                 }
             }
 
-            for (int i = 0; i < _unequalExamples.Length; i++) {
+            for (int i = 0; i < _unequalExamples.Length; i++)
+            {
                 var reference = _unequalExamples[i];
                 CheckSingle(reference);
 
-                for (int j = i + 1; j < _unequalExamples.Length; j++) {
+                for (int j = i + 1; j < _unequalExamples.Length; j++)
+                {
                     var other = _unequalExamples[j];
                     CheckDouble(reference, other);
                 }
@@ -94,13 +99,15 @@ namespace EqualsVerifier.Checker
 
         static void CheckNonNullity(T reference)
         {
-            try {
+            try
+            {
                 var nullity = reference.Equals(null);
                 AssertFalse(
                     ObjectFormatter.Of("Non-nullity: true returned for null value"), 
                     nullity);
             }
-            catch (NullReferenceException e) {
+            catch (NullReferenceException e)
+            {
                 Fail(ObjectFormatter.Of("Non-nullity: NullReferenceException thrown"), e);
             }
         }
@@ -113,14 +120,23 @@ namespace EqualsVerifier.Checker
         static void CheckTypeCheck(T reference)
         {
             var somethingElse = new SomethingElse();
-            try {
+            try
+            {
                 reference.Equals(somethingElse);
             }
-            catch (InvalidCastException) {
-                Fail(ObjectFormatter.Of("Type-check: equals throws InvalidCastException.\nAdd an 'is' or GetType() check."));
+            catch (InvalidCastException e)
+            {
+                Fail(
+                    ObjectFormatter.Of("Type-check: equals throws InvalidCastException.\nAdd an 'is' or GetType() check."),
+                    e);
             }
-            catch (Exception e) {
-                Fail(ObjectFormatter.Of("Type-check: equals throws %%.\nAdd an 'is' or GetType() check.", e.GetType().Name), e);
+            catch (Exception e)
+            {
+                Fail(
+                    ObjectFormatter.Of(
+                        "Type-check: equals throws %%.\nAdd an 'is' or GetType() check.",
+                        e.GetType().Name),
+                    e);
             }
         }
 
@@ -129,18 +145,26 @@ namespace EqualsVerifier.Checker
             if (!reference.Equals(copy))
                 return;
 
-            ObjectFormatter f = ObjectFormatter.Of("GetHashCode: HashCodes should be equal:\n  %% (%%)\nand\n  %% (%%)", reference, reference.GetHashCode(), copy, copy.GetHashCode());
+            ObjectFormatter f = ObjectFormatter.Of(
+                                    "GetHashCode: HashCodes should be equal:\n  %% (%%)\nand\n  %% (%%)",
+                                    reference,
+                                    reference.GetHashCode(),
+                                    copy,
+                                    copy.GetHashCode());
             AssertEquals(f, reference.GetHashCode(), copy.GetHashCode());
         }
 
         static bool IsIdentical(T reference, T other)
         {
-            foreach (var field in reference.GetType().GetFields(FieldHelper.AllFields)) {
-                try {
+            foreach (var field in reference.GetType().GetFields(FieldHelper.AllFields))
+            {
+                try
+                {
                     if (!NullSafeEquals(field.GetValue(reference), field.GetValue(other)))
                         return false;
                 }
-                catch (Exception) {
+                catch (Exception)
+                {
                     return false;
                 }
             }
