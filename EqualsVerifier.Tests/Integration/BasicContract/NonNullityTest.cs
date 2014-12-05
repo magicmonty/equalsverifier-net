@@ -33,6 +33,14 @@ namespace EqualsVerifier.Integration.BasicContract
                 "Type-check: equals throws InvalidCastException");
         }
 
+        [Test]
+        public void WhenEqualsDoesNotTypeCheckAndThrowsAnExceptionOtherThanClassCastException_ThenFail()
+        {
+            ExpectFailureWithCause<InvalidOperationException>(
+                () => EqualsVerifier.ForType<NoTypeCheckButNoClassCastExceptionEither>().Verify(),
+                "Type-check: equals throws InvalidOperationException");
+        }
+
         #pragma warning disable 659
         sealed class NullReferenceExceptionThrower : Point
         {
@@ -73,6 +81,31 @@ namespace EqualsVerifier.Integration.BasicContract
                     return false;
 
                 return _i == ((NoTypeCheck)obj)._i;
+            }
+        }
+
+        sealed class NoTypeCheckButNoClassCastExceptionEither
+        {
+            int _i;
+
+            public NoTypeCheckButNoClassCastExceptionEither(int i)
+            {
+                _i = i;
+            }
+
+            public override bool Equals(object obj)
+            {
+                try
+                {
+                    if (obj == null)
+                        return false;
+
+                    return _i == ((NoTypeCheckButNoClassCastExceptionEither)obj)._i;
+                }
+                catch (InvalidCastException)
+                {
+                    throw new InvalidOperationException();
+                }
             }
         }
         #pragma warning restore 659
