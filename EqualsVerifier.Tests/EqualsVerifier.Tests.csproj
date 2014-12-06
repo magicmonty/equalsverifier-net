@@ -90,6 +90,7 @@
     <Compile Include="Integration\ExtendedContract\ArrayTest.cs" />
     <Compile Include="Integration\ExtendedContract\AbstractDelegationTest.cs" />
     <Compile Include="Integration\ExtendedContract\BalancedAbstractnessTest.cs" />
+    <Compile Include="Integration\ExtendedContract\DontOverrideEqualsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">
