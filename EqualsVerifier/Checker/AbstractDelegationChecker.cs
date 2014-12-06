@@ -79,6 +79,12 @@ namespace EqualsVerifier.Checker
             var superclass = _type.BaseType;
             var superAccessor = _classAccessor.GetSuperAccessor();
 
+            while (!superAccessor.DeclaresGetHashCode() && !superAccessor.DeclaresEquals())
+            {
+                superAccessor = superAccessor.GetSuperAccessor();
+                superclass = superAccessor.Type;
+            }
+            
             bool equalsIsAbstract = superAccessor.IsEqualsAbstract;
             bool hashCodeIsAbstract = superAccessor.IsGetHashCodeAbstract;
             if (equalsIsAbstract != hashCodeIsAbstract)
