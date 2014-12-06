@@ -26,15 +26,23 @@ namespace EqualsVerifier.Checker
                 ObjectFormatter.Of("Precondition: no examples."), 
                 _unequalExamples.Any());
 
-            foreach (var example in _equalExamples) {
+            foreach (var example in _equalExamples)
+            {
                 AssertTrue(
-                    ObjectFormatter.Of("Precondition:\n  %%\nand\n  %%\nare of different classes", _equalExamples.First(), example),
+                    ObjectFormatter.Of(
+                        "Precondition:\n  %%\nand\n  %%\nare of different classes",
+                        _equalExamples.First(),
+                        example),
                     _type.IsAssignableFrom(example.GetType()));
             }
 
-            foreach (var example in _unequalExamples) {
+            foreach (var example in _unequalExamples)
+            {
                 AssertTrue(
-                    ObjectFormatter.Of("Precondition:\n  %%\nand\n  %%\nare of different classes", _unequalExamples.First(), example),
+                    ObjectFormatter.Of(
+                        "Precondition:\n  %%\nand\n  %%\nare of different classes",
+                        _unequalExamples.First(),
+                        example),
                     _type.IsAssignableFrom(example.GetType()));
             }        
         }

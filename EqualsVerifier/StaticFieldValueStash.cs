@@ -18,7 +18,7 @@ namespace EqualsVerifier
             _stash.Add(type, 
                 FieldEnumerable
                 .Of(type)
-                .Where(f => f.IsStatic)
+                .Where(f => f.IsStatic && !f.IsLiteral)
                 .Select(f => new { Field = f, Value = f.GetValue(null)})
                 .ToDictionary(f => f.Field, f => f.Value));
         }
@@ -27,7 +27,7 @@ namespace EqualsVerifier
         {
             foreach (var type in _stash.Keys)
             {
-                foreach (var field in FieldEnumerable.Of(type).Where(f => f.IsStatic))
+                foreach (var field in FieldEnumerable.Of(type).Where(f => f.IsStatic && !f.IsLiteral))
                     field.SetValue(null, _stash[type][field]);
             }
         }

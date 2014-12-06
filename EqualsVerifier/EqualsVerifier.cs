@@ -250,8 +250,13 @@ namespace EqualsVerifier
             if (_unequalExamples.Count > 0)
                 return;
 
-            _unequalExamples.Add((T)classAccessor.GetRedObject());
-            _unequalExamples.Add((T)classAccessor.GetBlackObject());
+            var red = (T)classAccessor.GetRedObject();
+            var black = (T)classAccessor.GetBlackObject();
+
+            _unequalExamples.Add(red);
+
+            if (!red.Equals(black))
+                _unequalExamples.Add(black);
         }
 
         void VerifyWithExamples(ClassAccessor classAccessor)
