@@ -303,7 +303,7 @@ namespace EqualsVerifier.Checker
                     changedAccessor.Set(float.NaN);
                     TestFrameworkBridge.AssertEquals(
                         ObjectFormatter.Of(
-                            "Float: equals doesn't use Float.compare for field %%.",
+                            "Float: Equals uses reference comparison for field %%.",
                             referenceAccessor.FieldName),
                         referenceAccessor.Object, 
                         changedAccessor.Object);
@@ -315,7 +315,7 @@ namespace EqualsVerifier.Checker
                     changedAccessor.Set(double.NaN);
                     TestFrameworkBridge.AssertEquals(
                         ObjectFormatter.Of(
-                            "Double: equals doesn't use Double.compare for field %%.",
+                            "Double: Equals uses reference comparison for field %%.",
                             referenceAccessor.FieldName),
                         referenceAccessor.Object, 
                         changedAccessor.Object);

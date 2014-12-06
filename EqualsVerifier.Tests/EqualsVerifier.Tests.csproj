@@ -92,6 +92,7 @@
     <Compile Include="Integration\ExtendedContract\BalancedAbstractnessTest.cs" />
     <Compile Include="Integration\ExtendedContract\DontOverrideEqualsTest.cs" />
     <Compile Include="Integration\ExtendedContract\EnumTest.cs" />
+    <Compile Include="Integration\ExtendedContract\FloatAndDoubleTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">
