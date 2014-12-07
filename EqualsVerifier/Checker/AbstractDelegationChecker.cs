@@ -27,6 +27,9 @@ namespace EqualsVerifier.Checker
             var instance = GetRedPrefabValue<T>(_type) ?? (T)_classAccessor.GetRedObject();
             var copy = GetBlackPrefabValue<T>(_type) ?? (T)_classAccessor.GetBlackObject();
 
+            if (instance == null && copy == null)
+                return;
+
             CheckAbstractDelegation(instance, copy);
 
             CheckAbstractDelegationInSuper();
