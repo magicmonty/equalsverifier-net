@@ -114,6 +114,7 @@ namespace EqualsVerifier.Integration.ExtendedContract
                 .Verify();
         }
 
+        #pragma warning disable 414
         public sealed class PrimitiveMutableField
         {
             int _second;
@@ -226,6 +227,7 @@ namespace EqualsVerifier.Integration.ExtendedContract
                 return (_field == null) ? 0 : _field.GetDeepHashCode();
             }
         }
+        #pragma warning restore 414
     }
 }
 

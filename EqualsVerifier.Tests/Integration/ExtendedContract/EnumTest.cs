@@ -27,6 +27,7 @@ namespace EqualsVerifier.Integration.ExtendedContract
             EqualsVerifier.ForType<SingletonUser>().Verify();
         }
 
+        #pragma warning disable 414
         public enum Enum
         {
             ONE,
@@ -82,6 +83,7 @@ namespace EqualsVerifier.Integration.ExtendedContract
                 return this.GetDefaultHashCode();
             }
         }
+        #pragma warning restore 414
     }
 }
 

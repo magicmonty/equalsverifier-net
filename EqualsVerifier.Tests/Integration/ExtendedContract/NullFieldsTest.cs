@@ -94,6 +94,7 @@ namespace EqualsVerifier.Integration.ExtendedContract
                 .Verify();
         }
 
+        #pragma warning disable 414
         public sealed class EqualsThrowsNullReferenceExceptionOnThis
         {
             readonly object _color;
@@ -227,6 +228,7 @@ namespace EqualsVerifier.Integration.ExtendedContract
                 return this.GetDefaultHashCode();
             }
         }
+        #pragma warning restore 414
     }
 }
 
