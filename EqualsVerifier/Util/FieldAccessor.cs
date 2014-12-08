@@ -70,7 +70,11 @@ namespace EqualsVerifier.Util
             {
                 modifier.Modify();
             }
-            catch (Exception e)
+            catch (FieldAccessException e)
+            {
+                throw new ReflectionException(e);
+            }
+            catch (MethodAccessException e)
             {
                 throw new ReflectionException(e);
             }
@@ -182,6 +186,8 @@ namespace EqualsVerifier.Util
                 else
                 {
                     CreatePrefabValues(_prefabValues, type);
+                    if (!_prefabValues.Contains(type))
+                        return;
                     var newValue = _prefabValues.GetOther(type, _field.GetValue(_object));
                     _field.SetValue(_object, newValue);
                 }

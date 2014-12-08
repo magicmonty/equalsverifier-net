@@ -94,6 +94,7 @@
     <Compile Include="Integration\ExtendedContract\EnumTest.cs" />
     <Compile Include="Integration\ExtendedContract\FloatAndDoubleTest.cs" />
     <Compile Include="Integration\ExtendedContract\MutableStateTest.cs" />
+    <Compile Include="Integration\ExtendedContract\NullFieldsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">
