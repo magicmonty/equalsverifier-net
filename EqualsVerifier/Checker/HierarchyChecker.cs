@@ -1,7 +1,6 @@
 using EqualsVerifier.Util;
 using System.Collections.Generic;
 using System;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 
 namespace EqualsVerifier.Checker
 {
@@ -32,7 +31,7 @@ namespace EqualsVerifier.Checker
             _redefinedSubclass = redefinedSubclass;
 
             _referenceAccessor = _classAccessor.GetRedAccessor();
-            _reference = _referenceAccessor == null ? default(T) : (T)_referenceAccessor.Get();
+            _reference = (T)_referenceAccessor.Get();
             _typeIsSealed = _type.IsSealed;
         }
 
@@ -42,8 +41,9 @@ namespace EqualsVerifier.Checker
             CheckSubclass();
             CheckRedefinedSubclass();
 
-            if (!_warningsToSuppress.Contains(Warning.STRICT_INHERITANCE))
+            if (!_warningsToSuppress.Contains(Warning.STRICT_INHERITANCE)) {
                 CheckSealedEqualsMethod();
+            }        
         }
 
         void CheckSuperclass()
@@ -55,42 +55,25 @@ namespace EqualsVerifier.Checker
 
             var equalSuper = ObjectAccessor.Of(_reference, superclass).Copy();
 
-            if (_hasRedefinedSuperclass || _usingGetClass)
-            {
+            if (_hasRedefinedSuperclass || _usingGetClass) {
                 AssertFalse(
-                    ObjectFormatter.Of(
-                        "Redefined superclass:\n  %%\nshould not equal superclass instance\n  %%\nbut it does.",
-                        _reference,
-                        equalSuper),
+                    ObjectFormatter.Of("Redefined superclass:\n  %%\nshould not equal superclass instance\n  %%\nbut it does.", _reference, equalSuper),
                     _reference.Equals(equalSuper) || equalSuper.Equals(_reference));
             }
-            else
-            {
+            else {
                 var shallow = (T)_referenceAccessor.Copy();
                 ObjectAccessor.Of(shallow).ShallowScramble(_classAccessor.PrefabValues);
 
                 AssertTrue(
-                    ObjectFormatter.Of(
-                        "Symmetry:\n  %%\ndoes not equal superclass instance\n  %%",
-                        _reference,
-                        equalSuper),
+                    ObjectFormatter.Of("Symmetry:\n  %%\ndoes not equal superclass instance\n  %%", _reference, equalSuper),
                     _reference.Equals(equalSuper) && equalSuper.Equals(_reference));
 
                 AssertTrue(
-                    ObjectFormatter.Of(
-                        "Transitivity:\n  %%\nand\n  %%\nboth equal superclass instance\n  %%\nwhich implies they equal each other.",
-                        _reference,
-                        shallow,
-                        equalSuper),
+                    ObjectFormatter.Of("Transitivity:\n  %%\nand\n  %%\nboth equal superclass instance\n  %%\nwhich implies they equal each other.", _reference, shallow, equalSuper),
                     _reference.Equals(shallow) || _reference.Equals(equalSuper) != equalSuper.Equals(shallow));
 
                 AssertTrue(
-                    ObjectFormatter.Of(
-                        "Superclass: hashCode for\n  %% (%%)\nshould be equal to hashCode for superclass instance\n  %% (%%)",
-                        _reference,
-                        _reference.GetHashCode(),
-                        equalSuper,
-                        equalSuper.GetHashCode()),
+                    ObjectFormatter.Of("Superclass: hashCode for\n  %% (%%)\nshould be equal to hashCode for superclass instance\n  %% (%%)", _reference, _reference.GetHashCode(), equalSuper, equalSuper.GetHashCode()),
                     _reference.GetHashCode() == equalSuper.GetHashCode());
             }
         }
@@ -102,20 +85,14 @@ namespace EqualsVerifier.Checker
 
             var equalSub = (T)_referenceAccessor.CopyIntoAnonymousSubclass();
 
-            if (_usingGetClass)
-            {
+            if (_usingGetClass) {
                 AssertFalse(
-                    ObjectFormatter.Of(
-                        "Subclass: object is equal to an instance of a trivial subclass with equal fields:\n  %%\nThis should not happen when using getClass().",
-                        _reference),
+                    ObjectFormatter.Of("Subclass: object is equal to an instance of a trivial subclass with equal fields:\n  %%\nThis should not happen when using getClass().", _reference),
                     _reference.Equals(equalSub));
             }
-            else
-            {
+            else {
                 AssertTrue(
-                    ObjectFormatter.Of(
-                        "Subclass: object is not equal to an instance of a trivial subclass with equal fields:\n  %%\nConsider making the class final.",
-                        _reference),
+                    ObjectFormatter.Of("Subclass: object is not equal to an instance of a trivial subclass with equal fields:\n  %%\nConsider making the class final.", _reference),
                     _reference.Equals(equalSub));
             }
         }
@@ -125,11 +102,8 @@ namespace EqualsVerifier.Checker
             if (_typeIsSealed || _redefinedSubclass == null)
                 return;
 
-            if (MethodIsFinal("Equals", typeof(object)))
-            {
-                Fail(ObjectFormatter.Of(
-                    "Subclass: %% has a final equals method.\nNo need to supply a redefined subclass.",
-                    _type.Name));
+            if (MethodIsFinal("Equals", typeof(object))) {
+                Fail(ObjectFormatter.Of("Subclass: %% has a final equals method.\nNo need to supply a redefined subclass.", _type.Name));
             }
 
             var redefinedSub = (T)_referenceAccessor.CopyIntoSubclass(_redefinedSubclass);
@@ -146,15 +120,13 @@ namespace EqualsVerifier.Checker
             var equalsIsSealed = MethodIsFinal("Equals", typeof(object));
             var getHashCodeIsSealed = MethodIsFinal("GetHashCode");
 
-            if (_usingGetClass)
-            {
+            if (_usingGetClass) {
                 AssertEquals(
                     ObjectFormatter.Of("Finality: equals and hashCode must both be sealed or both be non-sealed."),
                     equalsIsSealed, 
                     getHashCodeIsSealed);
             }
-            else
-            {
+            else {
                 AssertTrue(
                     ObjectFormatter.Of("Subclass: equals is not final.\nSupply an instance of a redefined subclass using withRedefinedSubclass if equals cannot be final."),
                     equalsIsSealed);
@@ -165,17 +137,14 @@ namespace EqualsVerifier.Checker
 
         bool MethodIsFinal(string methodName, params Type[] parameterTypes)
         {
-            try
-            {
+            try {
                 var method = _type.GetMethod(methodName, FieldHelper.AllFields, null, parameterTypes, null);
                 return method.IsFinal;
             }
-            catch (MethodAccessException e)
-            {
+            catch (MethodAccessException e) {
                 AssertionError("Security error: cannot access equals method for class " + _type.Name, e);
             }
-            catch (MissingMethodException e)
-            {
+            catch (MissingMethodException e) {
                 AssertionError("Impossible: class " + _type.Name + " has no Equals method.", e);
             }
             return false;

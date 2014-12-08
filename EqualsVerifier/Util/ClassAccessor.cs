@@ -123,40 +123,30 @@ namespace EqualsVerifier.Util
             return ClassAccessor.Of(_type.BaseType, _prefabValues, _ignoreAttributeFailure);
         }
 
-        public object GetObject(Func<ObjectAccessor> getAccessor)
-        {
-            var accessor = getAccessor();
-            return accessor == null ? null : accessor.Get();
-        }
-
         public object GetRedObject()
         {
-            return GetObject(GetRedAccessor);
+            return GetRedAccessor().Get();
         }
 
         public ObjectAccessor GetRedAccessor()
         {
             var result = BuildObjectAccessor();
-            if (result != null)
-                result.Scramble(_prefabValues);
+            result.Scramble(_prefabValues);
 
             return result;
         }
 
         public object GetBlackObject()
         {
-            return GetObject(GetBlackAccessor);
+            return GetBlackAccessor().Get();
         }
 
         public ObjectAccessor GetBlackAccessor()
         {
             var result = BuildObjectAccessor();
 
-            if (result != null)
-            {
-                result.Scramble(_prefabValues);
-                result.Scramble(_prefabValues);
-            }
+            result.Scramble(_prefabValues);
+            result.Scramble(_prefabValues);
 
             return result;
         }
@@ -179,7 +169,7 @@ namespace EqualsVerifier.Util
         {
             var obj = Instantiator.Instantiate(_type);
 
-            return obj == null ? null : ObjectAccessor.Of(obj);
+            return ObjectAccessor.Of(obj);
         }
     }
 }

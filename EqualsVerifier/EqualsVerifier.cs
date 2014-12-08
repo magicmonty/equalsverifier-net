@@ -255,15 +255,12 @@ namespace EqualsVerifier
 
             _unequalExamples.Add(red);
 
-            if (!object.Equals(red, black))
+            if (!red.Equals(black))
                 _unequalExamples.Add(black);
         }
 
         void VerifyWithExamples(ClassAccessor classAccessor)
         {
-            if (_warningsToSuppress.Contains(Warning.NULL_FIELDS) && _unequalExamples.Any(e => e == null))
-                return;
-
             RunCheckers(new IChecker[]
             {
                 new PreconditionChecker<T>(_equalExamples, _unequalExamples),

@@ -19,8 +19,10 @@ namespace EqualsVerifier.Util
 
         public void Put<T>(Type type, T red, T black)
         {
-            if (object.Equals(red, black))
+            if (red.Equals(black))
+            {
                 throw new ArgumentException("red equals black");
+            }
 
             _values.Add(type, new RedBlackTuple(red, black));
         }
@@ -181,9 +183,6 @@ namespace EqualsVerifier.Util
             var accessor = ClassAccessor.Of(type, this, false);
             var red = accessor.GetRedObject();
             var black = accessor.GetBlackObject();
-            if (red == null && black == null)
-                return;
-
             Put(type, red, black);
         }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Castle.DynamicProxy;
-using System.Reflection;
 
 namespace EqualsVerifier.Util
 {
@@ -50,17 +49,7 @@ namespace EqualsVerifier.Util
                     .Select(t => t.IsValueType ? Activator.CreateInstance(t) : null)
                     .ToArray();
 
-                try
-                {
-                    return Activator.CreateInstance(type, parameters);
-                }
-                catch (TargetInvocationException e)
-                {
-                    if (e.InnerException is NullReferenceException)
-                        return null;
-
-                    throw e;
-                }
+                return Activator.CreateInstance(type, parameters);
             }
         }
 
