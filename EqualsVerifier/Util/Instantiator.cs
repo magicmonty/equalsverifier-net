@@ -41,12 +41,14 @@ namespace EqualsVerifier.Util
             }
             catch (MissingMethodException)
             {
-
-                var parameters = type
+                var parameterTypes = type
                     .GetConstructors()
                     .FirstOrDefault()
                     .GetParameters()
                     .Select(p => p.ParameterType)
+                    .ToList();
+
+                var parameters = parameterTypes
                     .Select(t => t.IsValueType ? Activator.CreateInstance(t) : null)
                     .ToArray();
 
@@ -56,10 +58,14 @@ namespace EqualsVerifier.Util
                 }
                 catch (TargetInvocationException e)
                 {
-                    if (e.InnerException is NullReferenceException)
-                        return null;
+                    if (!(e.InnerException is NullReferenceException))
+                        throw e;
 
-                    throw e;
+                    parameters = parameterTypes
+                        .Select(t => t.IsValueType ? Activator.CreateInstance(t) : Instantiator.Instantiate(t))
+                        .ToArray();
+
+                    return Activator.CreateInstance(type, parameters);
                 }
             }
         }

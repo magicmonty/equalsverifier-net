@@ -185,11 +185,24 @@ namespace EqualsVerifier.Util
                 }
                 else
                 {
-                    CreatePrefabValues(_prefabValues, type);
-                    if (!_prefabValues.Contains(type))
-                        return;
-                    var newValue = _prefabValues.GetOther(type, _field.GetValue(_object));
-                    _field.SetValue(_object, newValue);
+                    try
+                    {
+                        CreatePrefabValues(_prefabValues, type);
+                        var newValue = _prefabValues.GetOther(type, _field.GetValue(_object));
+                        _field.SetValue(_object, newValue);
+                        
+                    }
+                    catch (TargetInvocationException ex)
+                    {
+                        if (!(ex.InnerException is NullReferenceException))
+                            throw ex;
+
+                        throw new ReflectionException(
+                            ObjectFormatter.Of(
+                                "Could not reliable intantiate examples for type '%%'! Please provide examples by yourself!",
+                                type)
+                            .Format());
+                    }
                 }
             }
         }

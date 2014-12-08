@@ -125,8 +125,7 @@ namespace EqualsVerifier.Util
 
         public object GetObject(Func<ObjectAccessor> getAccessor)
         {
-            var accessor = getAccessor();
-            return accessor == null ? null : accessor.Get();
+            return getAccessor().Get();
         }
 
         public object GetRedObject()
@@ -137,8 +136,7 @@ namespace EqualsVerifier.Util
         public ObjectAccessor GetRedAccessor()
         {
             var result = BuildObjectAccessor();
-            if (result != null)
-                result.Scramble(_prefabValues);
+            result.Scramble(_prefabValues);
 
             return result;
         }
@@ -152,11 +150,8 @@ namespace EqualsVerifier.Util
         {
             var result = BuildObjectAccessor();
 
-            if (result != null)
-            {
-                result.Scramble(_prefabValues);
-                result.Scramble(_prefabValues);
-            }
+            result.Scramble(_prefabValues);
+            result.Scramble(_prefabValues);
 
             return result;
         }

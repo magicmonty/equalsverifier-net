@@ -1,7 +1,6 @@
 using EqualsVerifier.Util;
 using System.Collections.Generic;
 using System;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 
 namespace EqualsVerifier.Checker
 {
@@ -32,7 +31,7 @@ namespace EqualsVerifier.Checker
             _redefinedSubclass = redefinedSubclass;
 
             _referenceAccessor = _classAccessor.GetRedAccessor();
-            _reference = _referenceAccessor == null ? default(T) : (T)_referenceAccessor.Get();
+            _reference = (T)_referenceAccessor.Get();
             _typeIsSealed = _type.IsSealed;
         }
 

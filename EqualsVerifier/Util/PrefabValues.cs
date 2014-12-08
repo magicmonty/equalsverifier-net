@@ -178,13 +178,25 @@ namespace EqualsVerifier.Util
 
         void CreateAndPutInstances(Type type)
         {
-            var accessor = ClassAccessor.Of(type, this, false);
-            var red = accessor.GetRedObject();
-            var black = accessor.GetBlackObject();
-            if (red == null && black == null)
-                return;
+            try
+            {
+                var accessor = ClassAccessor.Of(type, this, false);
+                var red = accessor.GetRedObject();
+                var black = accessor.GetBlackObject();
+                
+                Put(type, red, black);
+            }
+            catch (TargetInvocationException ex)
+            {
+                if (!(ex.InnerException is NullReferenceException))
+                    throw ex;
 
-            Put(type, red, black);
+                throw new ReflectionException(
+                    ObjectFormatter.Of(
+                        "Could not reliable intantiate examples for type '%%'! Please provide examples by yourself!",
+                        type)
+                    .Format());
+            }
         }
 
         class RedBlackTuple : Tuple<object, object>

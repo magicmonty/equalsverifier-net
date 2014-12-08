@@ -2,6 +2,7 @@
 using EqualsVerifier.TestHelpers;
 using NUnit.Framework;
 using EqualsVerifier.TestHelpers.Types;
+using EqualsVerifier.Util.Exceptions;
 
 namespace EqualsVerifier.Integration.ExtendedContract
 {
