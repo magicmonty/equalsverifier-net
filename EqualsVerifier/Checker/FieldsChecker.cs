@@ -180,11 +180,11 @@ namespace EqualsVerifier.Checker
                 {
                     AssertFalse(
                         ObjectFormatter.Of(
-                            "Significant fields: equals relies on %%, but hashCode does not.",
+                            "Significant fields: Equals relies on %%, but GetHashCode does not.",
                             fieldName),
                         equalsChanged);
                     AssertFalse(ObjectFormatter.Of(
-                        "Significant fields: hashCode relies on %%, but equals does not.",
+                        "Significant fields: GetHashCode relies on %%, but Equals does not.",
                         fieldName),
                         hashCodeChanged);
                 }
@@ -193,11 +193,11 @@ namespace EqualsVerifier.Checker
                 {
                     var thisFieldShouldBeUsed = _allFieldsShouldBeUsed && !_allFieldsShouldBeUsedExceptions.Contains(fieldName);
                     AssertTrue(
-                        ObjectFormatter.Of("Significant fields: equals does not use %%.", fieldName),
+                        ObjectFormatter.Of("Significant fields: Equals does not use %%.", fieldName),
                         !thisFieldShouldBeUsed || equalsChanged);
 
                     AssertTrue(ObjectFormatter.Of(
-                        "Significant fields: equals should not use %%, but it does.",
+                        "Significant fields: Equals should not use %%, but it does.",
                         fieldName),
                         thisFieldShouldBeUsed || !equalsChanged);
 
@@ -205,7 +205,7 @@ namespace EqualsVerifier.Checker
                     {
                         AssertTrue(
                             ObjectFormatter.Of(
-                                "Significant fields: all fields should be used, but %% has not defined an equals method.",
+                                "Significant fields: all fields should be used, but %% has not defined an Equals method.",
                                 _classAccessor.Type.Name),
                             _classAccessor.DeclaresEquals());
                     }
