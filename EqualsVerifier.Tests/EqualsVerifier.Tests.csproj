@@ -49,6 +49,7 @@
     <Folder Include="Integration\BasicContract\" />
     <Folder Include="TestHelpers\Annotations\" />
     <Folder Include="Integration\ExtendedContract\" />
+    <Folder Include="Integration\ExtraFeatures\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestHelpers\Types\BlindlyEqualsColorPoint.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Integration\ExtendedContract\NullFieldsWithExceptionsTest.cs" />
     <Compile Include="Integration\ExtendedContract\SignatureTest.cs" />
     <Compile Include="Integration\ExtendedContract\SignificantFieldsTest.cs" />
+    <Compile Include="Integration\ExtraFeatures\GetClassInEqualityComparisonTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">

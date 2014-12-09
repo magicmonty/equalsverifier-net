@@ -107,7 +107,7 @@ namespace EqualsVerifier
         readonly PrefabValues _prefabValues;
         readonly HashSet<Warning> _warningsToSuppress = new HashSet<Warning>();
 
-        bool _usingGetClass;
+        bool _usingGetType;
         bool _allFieldsShouldBeUsed;
         ISet<string> _allFieldsShouldBeUsedExceptions = new HashSet<string>();
         bool _hasRedefinedSubclass;
@@ -151,9 +151,9 @@ namespace EqualsVerifier
             return this;
         }
 
-        public EqualsVerifier<T> UsingGetClass()
+        public EqualsVerifier<T> UsingGetType()
         {
-            _usingGetClass = true;
+            _usingGetType = true;
             return this;
         }
 
@@ -271,7 +271,7 @@ namespace EqualsVerifier
                 new HierarchyChecker<T>(
                     classAccessor,
                     _warningsToSuppress,
-                    _usingGetClass,
+                    _usingGetType,
                     _hasRedefinedSubclass,
                     _redefinedSubclass),
                 new FieldsChecker<T>(

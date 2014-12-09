@@ -9,7 +9,7 @@ namespace EqualsVerifier.Checker
         readonly Type _type;
         readonly ClassAccessor _classAccessor;
         readonly ISet<Warning> _warningsToSuppress;
-        readonly bool _usingGetClass;
+        readonly bool _usingGetType;
         readonly bool _hasRedefinedSuperclass;
         readonly Type _redefinedSubclass;
         readonly ObjectAccessor _referenceAccessor;
@@ -19,14 +19,14 @@ namespace EqualsVerifier.Checker
         public HierarchyChecker(
             ClassAccessor classAccessor, 
             ISet<Warning> warningsToSuppress, 
-            bool usingGetClass, 
+            bool usingGetType, 
             bool hasRedefinedSuperclass, 
             Type redefinedSubclass)
         {
             _type = typeof(T);
             _classAccessor = classAccessor;
             _warningsToSuppress = new HashSet<Warning>(warningsToSuppress);
-            _usingGetClass = usingGetClass;
+            _usingGetType = usingGetType;
             _hasRedefinedSuperclass = hasRedefinedSuperclass;
             _redefinedSubclass = redefinedSubclass;
 
@@ -54,7 +54,7 @@ namespace EqualsVerifier.Checker
 
             var equalSuper = ObjectAccessor.Of(_reference, superclass).Copy();
 
-            if (_hasRedefinedSuperclass || _usingGetClass)
+            if (_hasRedefinedSuperclass || _usingGetType)
             {
                 AssertFalse(
                     ObjectFormatter.Of(
@@ -101,7 +101,7 @@ namespace EqualsVerifier.Checker
 
             var equalSub = (T)_referenceAccessor.CopyIntoAnonymousSubclass();
 
-            if (_usingGetClass)
+            if (_usingGetType)
             {
                 AssertFalse(
                     ObjectFormatter.Of(
@@ -145,7 +145,7 @@ namespace EqualsVerifier.Checker
             var equalsIsSealed = MethodIsFinal("Equals", typeof(object));
             var getHashCodeIsSealed = MethodIsFinal("GetHashCode");
 
-            if (_usingGetClass)
+            if (_usingGetType)
             {
                 AssertEquals(
                     ObjectFormatter.Of("Finality: equals and hashCode must both be sealed or both be non-sealed."),
