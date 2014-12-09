@@ -4,10 +4,10 @@ using EqualsVerifier.TestHelpers;
 namespace EqualsVerifier.Integration.ExtraFeatures
 {
     [TestFixture]
-    public class GetClassInEqualityComparisonTest : IntegrationTestBase
+    public class GetTypeInEqualityComparisonTest : IntegrationTestBase
     {
         [Test]
-        public void GivenAnAbstractSuperclassAndUsingGetClassIsUsed_WhenGetClassIsPartOfEqualityComparison_ThenSucceed()
+        public void GivenAnAbstractSuperclassAndUsingGetTypeIsUsed_WhenGetTypeIsPartOfEqualityComparison_ThenSucceed()
         {
             EqualsVerifier
                 .ForType<Identifiable>()
@@ -17,7 +17,7 @@ namespace EqualsVerifier.Integration.ExtraFeatures
         }
 
         [Test]
-        public void GivenAConcreteImplementationAndUsingGetClassIsUsed_WhenGetClassIsPartOfEqualityComparison_ThenSucceed()
+        public void GivenAConcreteImplementationAndUsingGetTypeIsUsed_WhenGetTypeIsPartOfEqualityComparison_ThenSucceed()
         {
             EqualsVerifier
                 .ForType<Person>()
@@ -26,7 +26,7 @@ namespace EqualsVerifier.Integration.ExtraFeatures
         }
 
         [Test]
-        public void GivenAnotherConcreteImplementationAndUsingGetClassIsUsed_WhenGetClassIsPartOfEqualityComparison_ThenSucceed()
+        public void GivenAnotherConcreteImplementationAndUsingGetTypeIsUsed_WhenGetTypeIsPartOfEqualityComparison_ThenSucceed()
         {
             EqualsVerifier
                 .ForType<Account>()

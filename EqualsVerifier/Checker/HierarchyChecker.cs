@@ -105,7 +105,7 @@ namespace EqualsVerifier.Checker
             {
                 AssertFalse(
                     ObjectFormatter.Of(
-                        "Subclass: object is equal to an instance of a trivial subclass with equal fields:\n  %%\nThis should not happen when using getClass().",
+                        "Subclass: object is equal to an instance of a trivial subclass with equal fields:\n  %%\nThis should not happen when using GetType().",
                         _reference),
                     _reference.Equals(equalSub));
             }
