@@ -101,6 +101,7 @@
     <Compile Include="Integration\ExtendedContract\SignificantFieldsTest.cs" />
     <Compile Include="Integration\ExtraFeatures\GetTypeInEqualityComparisonTest.cs" />
     <Compile Include="Integration\ExtraFeatures\GetTypeTest.cs" />
+    <Compile Include="Integration\ExtraFeatures\RelaxedEqualsPreconditionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">

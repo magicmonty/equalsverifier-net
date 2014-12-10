@@ -15,9 +15,9 @@ namespace EqualsVerifier.Checker
 
         public PreconditionChecker(IEnumerable<T> equalExamples, IEnumerable<T> unequalExamples)
         {
-            _type = typeof(T);
             _unequalExamples = unequalExamples;
             _equalExamples = equalExamples;
+            _type = _equalExamples.Any() ? _equalExamples.First().GetType() : typeof(T);
         }
 
         public override void Check()
@@ -33,7 +33,7 @@ namespace EqualsVerifier.Checker
                         "Precondition:\n  %%\nand\n  %%\nare of different classes",
                         _equalExamples.First(),
                         example),
-                    _type.IsAssignableFrom(example.GetType()));
+                    _type.IsInstanceOfType(example));
             }
 
             foreach (var example in _unequalExamples)
@@ -43,7 +43,7 @@ namespace EqualsVerifier.Checker
                         "Precondition:\n  %%\nand\n  %%\nare of different classes",
                         _unequalExamples.First(),
                         example),
-                    _type.IsAssignableFrom(example.GetType()));
+                    _type.IsInstanceOfType(example));
             }        
         }
     }

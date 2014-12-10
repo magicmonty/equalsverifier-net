@@ -32,15 +32,11 @@ namespace EqualsVerifier
 
         static IEnumerable<T> BuildListOfAtLeastTwo<T>(T first, T second, params T[] more) where T: class
         {
-            if (!first.GetType().IsValueType && first == null)
-            {
+            if (first == null)
                 throw new ArgumentNullException("first");
-            }
 
-            if (!second.GetType().IsValueType && second == null)
-            {
+            if (second == null)
                 throw new ArgumentNullException("second");
-            }
 
             var result = new List<T>();
 

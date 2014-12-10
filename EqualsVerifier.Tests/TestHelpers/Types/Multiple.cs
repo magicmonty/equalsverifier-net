@@ -11,7 +11,7 @@
             this.b = b;
         }
 
-        public override bool Equals(object obj)
+        public sealed override bool Equals(object obj)
         {
             var other = obj as Multiple;
             if (other == null)
@@ -20,7 +20,7 @@
             return a * b == other.a * other.b;
         }
 
-        public override int GetHashCode()
+        public sealed override int GetHashCode()
         {
             return a * b;
         }
