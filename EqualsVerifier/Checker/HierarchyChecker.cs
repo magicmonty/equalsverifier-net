@@ -23,6 +23,10 @@ namespace EqualsVerifier.Checker
             bool hasRedefinedSuperclass, 
             Type redefinedSubclass)
         {
+            if (warningsToSuppress.Contains(Warning.STRICT_INHERITANCE) && redefinedSubclass != null)
+            {
+                Fail(ObjectFormatter.Of("WithRedefinedSubclass and WeakInheritanceCheck are mutually exclusive."));
+            }
             _type = typeof(T);
             _classAccessor = classAccessor;
             _warningsToSuppress = new HashSet<Warning>(warningsToSuppress);
