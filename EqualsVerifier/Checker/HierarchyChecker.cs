@@ -89,7 +89,7 @@ namespace EqualsVerifier.Checker
 
                 AssertTrue(
                     ObjectFormatter.Of(
-                        "Superclass: hashCode for\n  %% (%%)\nshould be equal to hashCode for superclass instance\n  %% (%%)",
+                        "Superclass: GetHashCode for\n  %% (%%)\nshould be equal to GetHashCode for superclass instance\n  %% (%%)",
                         _reference,
                         _reference.GetHashCode(),
                         equalSuper,
