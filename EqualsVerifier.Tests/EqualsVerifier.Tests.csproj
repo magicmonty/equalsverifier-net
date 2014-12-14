@@ -50,6 +50,7 @@
     <Folder Include="TestHelpers\Annotations\" />
     <Folder Include="Integration\ExtendedContract\" />
     <Folder Include="Integration\ExtraFeatures\" />
+    <Folder Include="Integration\Inheritance\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestHelpers\Types\BlindlyEqualsColorPoint.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Integration\ExtraFeatures\RelaxedEqualsTest.cs" />
     <Compile Include="Integration\ExtraFeatures\VersionedEntityTest.cs" />
     <Compile Include="Integration\ExtraFeatures\WarningsMixTest.cs" />
+    <Compile Include="Integration\Inheritance\AbstractHierarchyTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">
