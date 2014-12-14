@@ -104,6 +104,7 @@
     <Compile Include="Integration\ExtraFeatures\RelaxedEqualsPreconditionTest.cs" />
     <Compile Include="Integration\ExtraFeatures\RelaxedEqualsTest.cs" />
     <Compile Include="Integration\ExtraFeatures\VersionedEntityTest.cs" />
+    <Compile Include="Integration\ExtraFeatures\WarningsMixTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">
