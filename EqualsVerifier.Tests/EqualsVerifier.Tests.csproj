@@ -107,6 +107,7 @@
     <Compile Include="Integration\ExtraFeatures\VersionedEntityTest.cs" />
     <Compile Include="Integration\ExtraFeatures\WarningsMixTest.cs" />
     <Compile Include="Integration\Inheritance\AbstractHierarchyTest.cs" />
+    <Compile Include="Integration\Inheritance\FinalityTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EqualsVerifier\EqualsVerifier.csproj">

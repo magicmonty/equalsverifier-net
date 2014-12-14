@@ -113,7 +113,7 @@ namespace EqualsVerifier.Checker
             {
                 AssertTrue(
                     ObjectFormatter.Of(
-                        "Subclass: object is not equal to an instance of a trivial subclass with equal fields:\n  %%\nConsider making the class final.",
+                        "Subclass: object is not equal to an instance of a trivial subclass with equal fields:\n  %%\nConsider making the class sealed.",
                         _reference),
                     _reference.Equals(equalSub));
             }
@@ -127,7 +127,7 @@ namespace EqualsVerifier.Checker
             if (MethodIsFinal("Equals", typeof(object)))
             {
                 Fail(ObjectFormatter.Of(
-                    "Subclass: %% has a final equals method.\nNo need to supply a redefined subclass.",
+                    "Subclass: %% has a sealed Equals method.\nNo need to supply a redefined subclass.",
                     _type.Name));
             }
 
@@ -148,16 +148,16 @@ namespace EqualsVerifier.Checker
             if (_usingGetType)
             {
                 AssertEquals(
-                    ObjectFormatter.Of("Finality: equals and hashCode must both be sealed or both be non-sealed."),
+                    ObjectFormatter.Of("Finality: Equals and GetHashCode must both be sealed or both be non-sealed."),
                     equalsIsSealed, 
                     getHashCodeIsSealed);
             }
             else
             {
                 AssertTrue(
-                    ObjectFormatter.Of("Subclass: equals is not final.\nSupply an instance of a redefined subclass using withRedefinedSubclass if equals cannot be final."),
+                    ObjectFormatter.Of("Subclass: Equals is not sealed.\nSupply an instance of a redefined subclass using WithRedefinedSubclass if Equals cannot be sealed."),
                     equalsIsSealed);
-                AssertTrue(ObjectFormatter.Of("Subclass: hashCode is not final.\nSupply an instance of a redefined subclass using withRedefinedSubclass if hashCode cannot be final."),
+                AssertTrue(ObjectFormatter.Of("Subclass: GetHashCode is not sealed.\nSupply an instance of a redefined subclass using WithRedefinedSubclass if GetHashCode cannot be sealed."),
                     getHashCodeIsSealed);
             }
         }
